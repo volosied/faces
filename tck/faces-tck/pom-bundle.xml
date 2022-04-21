@@ -373,7 +373,7 @@
                             <goal>run</goal>
                         </goals>
                         <configuration>
-                            <target>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
                                 <replace file="${glassfish.home}/glassfish/domains/domain1/config/domain.xml" 
                                     token="-Xmx512m" value="-Xmx1024m" />
                                     
@@ -385,10 +385,24 @@
                                     </exec>
                                 </limit>
                                 
-                                <exec executable="${ant.home}/bin/ant" dir="${tck.tests.home}">
-                                    <arg value="-Dutil.dir=${tck.home}"  />
-                                    <arg value="deploy.all"  />
-                                </exec>
+                                 <!-- Deploy single test -->
+                                <sequential if:set="run.test" >
+                                	<dirname property="test.dir" file="${tck.home}/src/${run.test}"/>
+                                	<echo>Deploying from ${test.dir}</echo>
+                                	
+                                	<exec executable="${ant.home}/bin/ant" dir="${test.dir}">
+                                    	<arg value="deploy"  />
+                                	</exec>
+                                </sequential>
+
+                                <!-- Deploy all tests -->
+                                <sequential unless:set="run.test" >
+                                	<exec executable="${ant.home}/bin/ant" dir="${tck.tests.home}">
+                                        <arg value="-Dutil.dir=${tck.home}"  />
+                                    	<arg value="deploy.all"  />
+                                	</exec>
+                                </sequential>
+
                             </target>
                         </configuration>
                     </execution>
