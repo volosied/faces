@@ -124,7 +124,7 @@ public final class TestServlet extends HttpTCKServlet {
 
     getFacesContext().setViewRoot(root);
 
-    String newViewId = "/newViewId";
+    String newViewId = "/newViewId.xhtml";
 
     UIViewRoot root2 = new SimpleViewHandlerWrapper(
         getApplication().getViewHandler()).createView(getFacesContext(),
