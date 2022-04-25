@@ -100,7 +100,7 @@ public final class TestServlet extends HttpTCKServlet {
   public void viewHandlerCreateViewTest(HttpServletRequest request,
       HttpServletResponse response) throws ServletException, IOException {
     PrintWriter out = response.getWriter();
-    String viewId = "/viewId";
+    String viewId = "/viewId.xhtml";
     UIViewRoot root = new SimpleViewHandlerWrapper(
         getApplication().getViewHandler()).createView(getFacesContext(),
             viewId);
