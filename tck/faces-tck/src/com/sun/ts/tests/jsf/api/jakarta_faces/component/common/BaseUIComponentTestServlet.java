@@ -1362,16 +1362,16 @@ public abstract class BaseUIComponentTestServlet
       HttpServletResponse response) throws ServletException, IOException {
     PrintWriter out = response.getWriter();
 
-    FacesContext context = getFacesContext();
-    UIViewRoot root = context.getViewRoot();
-    root.setViewId("/test.xhtml");
+    // FacesContext context = getFacesContext();
+    // UIViewRoot root = context.getViewRoot();
+    // root.setViewId("/test.xhtml");
 
     ResponseWriter rw = new TCKResponseWriter();
     context.setResponseWriter(rw);
 
     UIComponent component = createComponent();
     component.setId("test_ID");
-    component.setId("/test.xhtml");
+    ((UIViewRoot)component).setViewId("/test.xhtml");
     String uicType = component.getClass().getSimpleName();
 
     /*
@@ -1442,7 +1442,7 @@ public abstract class BaseUIComponentTestServlet
 
     UIComponent component = createComponent();
     component.setId("test_ID");
-    component.setViewId("/test.xhtml");
+    ((UIViewRoot)component).setViewId("/test.xhtml");
 
     String uicType = component.getClass().getSimpleName();
 
@@ -3502,9 +3502,11 @@ public abstract class BaseUIComponentTestServlet
     UIComponent compOne = createComponent();
     UIComponent compTwo = createComponent();
     compOne.setId("compOne");
-    compOne.setViewId("/compOne.xhtml");
+    // compOne.setViewId("/compOne.xhtml");
+    ((UIViewRoot)compOne).setViewId("/test.xhtml");
     compTwo.setId("compTwo");
     compTwo.setViewId("/compTwo.xhtml");
+    // ((UIViewRoot)compTwo).setViewId("/test.xhtml");
     String oneType = compOne.getClass().getSimpleName();
     String twoType = compTwo.getClass().getSimpleName();
 
@@ -3886,7 +3888,7 @@ public abstract class BaseUIComponentTestServlet
 
     UIComponent comp = createComponent();
     comp.setRendered(true);
-    comp.setViewId("/test.xhtml");
+    ((UIViewRoot)comp).setViewId("/test.xhtml");
 
     String sRendererType = comp.getRendererType();
     String sRendererFamily = comp.getFamily();
@@ -3945,7 +3947,7 @@ public abstract class BaseUIComponentTestServlet
 
     UIComponent comp = createComponent();
     comp.setRendered(false);
-    comp.setViewId("/test.xhtml");
+    ((UIViewRoot)comp).setViewId("/test.xhtml");
     String sRendererType = comp.getRendererType();
     String sRendererFamily = comp.getFamily();
 
