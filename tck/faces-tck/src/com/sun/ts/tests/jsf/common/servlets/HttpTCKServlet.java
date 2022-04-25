@@ -192,7 +192,7 @@ public abstract class HttpTCKServlet extends HttpServlet {
 
   protected UIViewRoot createViewRoot() {
 
-    UIViewRoot root = new UIViewRoot()
+    UIViewRoot root = new UIViewRoot();
     // Set up RenderKit
     String renderKitId = facesContext.getApplication().getViewHandler().calculateRenderKitId(facesContext);
     root.setRenderKitId(renderKitId);
