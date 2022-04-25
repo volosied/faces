@@ -1371,6 +1371,7 @@ public abstract class BaseUIComponentTestServlet
 
     UIComponent component = createComponent();
     component.setId("test_ID");
+    component.setId("/test.xhtml");
     String uicType = component.getClass().getSimpleName();
 
     /*
@@ -1441,6 +1442,8 @@ public abstract class BaseUIComponentTestServlet
 
     UIComponent component = createComponent();
     component.setId("test_ID");
+    component.setViewId("/test.xhtml");
+
     String uicType = component.getClass().getSimpleName();
 
     /*
@@ -3499,7 +3502,9 @@ public abstract class BaseUIComponentTestServlet
     UIComponent compOne = createComponent();
     UIComponent compTwo = createComponent();
     compOne.setId("compOne");
+    compOne.setViewId("/compOne.xhtml");
     compTwo.setId("compTwo");
+    compTwo.setViewId("/compTwo.xhtml");
     String oneType = compOne.getClass().getSimpleName();
     String twoType = compTwo.getClass().getSimpleName();
 
@@ -3881,6 +3886,8 @@ public abstract class BaseUIComponentTestServlet
 
     UIComponent comp = createComponent();
     comp.setRendered(true);
+    comp.setViewId("/test.xhtml");
+
     String sRendererType = comp.getRendererType();
     String sRendererFamily = comp.getFamily();
 
@@ -3938,6 +3945,7 @@ public abstract class BaseUIComponentTestServlet
 
     UIComponent comp = createComponent();
     comp.setRendered(false);
+    comp.setViewId("/test.xhtml");
     String sRendererType = comp.getRendererType();
     String sRendererFamily = comp.getFamily();
 
