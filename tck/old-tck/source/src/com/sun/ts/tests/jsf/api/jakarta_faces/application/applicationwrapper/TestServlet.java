@@ -57,6 +57,7 @@ import jakarta.faces.application.NavigationHandler;
 import jakarta.faces.application.ResourceHandler;
 import jakarta.faces.application.StateManager;
 import jakarta.faces.application.ViewHandler;
+import jakarta.faces.application.ViewHandlerWrapper;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.component.UIInput;
 import jakarta.faces.component.UIOutput;
@@ -683,11 +684,16 @@ public class TestServlet extends HttpTCKServlet {
     boolean matches = false;
     if (resolver.equals(tckHandler)) {
       matches = true;
-    } else if(resolver instanceof ViewHandlerWrapper && ((ViewHandlerWrapper)resolver).getWrapped().equals(tckHandler)){
-      matches = true;
+    } else {
+      while (resolver instanceof ViewHandlerWrapper) {
+        resolver = ((ViewHandlerWrapper)resolver).getWrapped();
+      }
+      if(resolver.equals(tckHandler)){
+        matches = true;
+      }
     }
 
-    if(!match){
+    if(!matches){
       out.println(JSFTestUtil.FAIL + JSFTestUtil.NL
       + "Application.getViewHandler (nor ViewHandlerWrapper.getWrapped) "
       + "returned the expected ViewHandler.");

@@ -1098,11 +1098,16 @@ public class TestServlet extends HttpTCKServlet {
     boolean matches = false;
     if (resolver.equals(tckHandler)) {
       matches = true;
-    } else if(resolver instanceof ViewHandlerWrapper && ((ViewHandlerWrapper)resolver).getWrapped().equals(tckHandler)){
-      matches = true;
+    } else {
+      while (resolver instanceof ViewHandlerWrapper) {
+        resolver = ((ViewHandlerWrapper)resolver).getWrapped();
+      }
+      if(resolver.equals(tckHandler)){
+        matches = true;
+      }
     }
     
-    if(!match){
+    if(!matches){
       out.println(JSFTestUtil.FAIL + JSFTestUtil.NL
       + "Application.getViewHandler (nor ViewHandlerWrapper.getWrapped) "
       + "returned the expected ViewHandler.");
