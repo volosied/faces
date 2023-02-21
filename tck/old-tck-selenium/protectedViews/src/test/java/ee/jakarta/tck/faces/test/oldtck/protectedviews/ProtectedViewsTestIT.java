@@ -18,7 +18,7 @@ package ee.jakarta.tck.faces.test.oldtck.protectedviews;
 
 import static java.lang.System.getProperty;
 import static org.jboss.shrinkwrap.api.ShrinkWrap.create;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotEquals;
 
 import java.io.File;
@@ -35,6 +35,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -70,9 +71,23 @@ public class ProtectedViewsTestIT {
      * @see https://github.com/jakartaee/faces/issues/1560
      */
     @Test
-    public void test() throws Exception {
+    public void test_public_view() throws Exception {
         HtmlPage page = webClient.getPage(webUrl + "faces/views/public.xhtml");
+        assertTrue("Expected text not found!", page.asNormalizedText().contains("This is a Public View!"));
+    }
+
+    /**
+     * @see HtmlInputText#getType()
+     * @see https://github.com/jakartaee/faces/issues/1560
+     */
+    @Test
+    public void test_protected_view() throws Exception {
+        webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+        HtmlPage page = webClient.getPage(webUrl + "faces/views/protected.xhtml");
         System.out.println(page.asNormalizedText());
+        HtmlAnchor anchor = (HtmlAnchor) page.getElementById("messOne");
+        System.out.println(anchor + " <- anchor");
+        assertTrue("Expected a ProtectedViewException when accessing a protected view", page.asNormalizedText().contains("jakarta.faces.application.ProtectedViewException"));
     }
 
 }
