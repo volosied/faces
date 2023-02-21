@@ -16,30 +16,22 @@
     SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
 
 -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.eclipse.ee4j.faces.tck</groupId>
-        <artifactId>jakarta-faces-tck</artifactId>
+        <groupId>org.eclipse.ee4j.tck.faces.old-tck-selenium</groupId>
+        <artifactId>pom</artifactId>
         <version>4.0.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.eclipse.ee4j.tck.faces.old-tck-selenium</groupId>
-    <artifactId>pom</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>protectedViews</artifactId>
+    <packaging>war</packaging>
 
-    <name>Jakarta Faces TCK ${project.version} - Test - Faces 4.0</name>
+    <name>Jakarta Faces TCK ${project.version} - Test - Faces 2.2 - protectedViews</name>
 
-    <modules>
-        <module>protectedViews</module>
-    </modules>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.eclipse.ee4j.tck.faces.test</groupId>
-            <artifactId>util</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
+    <build>
+        <finalName>test-faces22-protectedViews</finalName>
+    </build>
 </project>
