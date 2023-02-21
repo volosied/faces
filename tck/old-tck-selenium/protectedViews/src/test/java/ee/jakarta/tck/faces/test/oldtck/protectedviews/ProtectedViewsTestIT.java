@@ -19,7 +19,9 @@ package ee.jakarta.tck.faces.test.oldtck.protectedviews;
 import static java.lang.System.getProperty;
 import static org.jboss.shrinkwrap.api.ShrinkWrap.create;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.io.File;
 import java.net.URL;
@@ -84,7 +86,7 @@ public class ProtectedViewsTestIT {
 
     HtmlAnchor anchor = (HtmlAnchor) page.getElementById("messOne");
 
-    assertNull("Illegal Access of a Protected View!", anchor)
+    assertNull("Illegal Access of a Protected View!", anchor);
 
     assertTrue("Expected a ProtectedViewException when accessing a protected view", page.asNormalizedText().contains("jakarta.faces.application.ProtectedViewException"));
 
@@ -109,7 +111,7 @@ public class ProtectedViewsTestIT {
     HtmlPage page = webClient.getPage(webUrl + "faces/views/public.xhtml");
 
     HtmlAnchor anchor = (HtmlAnchor) page.getElementById("form1:linkOne");
-    assertNotNull("Anchor linkOne should not be null!", anchor)
+    assertNotNull("Anchor linkOne should not be null!", anchor);
 
     HtmlPage protectedPage = anchor.click();
     assertEquals(expected, protectedPage.getElementById("messOne").asNormalizedText());
