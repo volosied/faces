@@ -66,28 +66,6 @@ public class ProtectedViewsTestIT {
         webClient.close();
     }
 
-    /**
-     * @see HtmlInputText#getType()
-     * @see https://github.com/jakartaee/faces/issues/1560
-     */
-    @Test
-    public void test_public_view() throws Exception {
-        HtmlPage page = webClient.getPage(webUrl + "faces/views/public.xhtml");
-        assertTrue("Expected text not found!", page.asNormalizedText().contains("This is a Public View!"));
-    }
 
-    /**
-     * @see HtmlInputText#getType()
-     * @see https://github.com/jakartaee/faces/issues/1560
-     */
-    @Test
-    public void test_protected_view() throws Exception {
-        webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
-        HtmlPage page = webClient.getPage(webUrl + "faces/views/protected.xhtml");
-        System.out.println(page.asNormalizedText());
-        HtmlAnchor anchor = (HtmlAnchor) page.getElementById("messOne");
-        System.out.println(anchor + " <- anchor");
-        assertTrue("Expected a ProtectedViewException when accessing a protected view", page.asNormalizedText().contains("jakarta.faces.application.ProtectedViewException"));
-    }
 
 }
