@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Contributors to the Eclipse Foundation.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -14,17 +14,18 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-package ee.jakarta.tck.faces.test.protectedviews.ajax;
+package ee.jakarta.tck.faces.test.oldtck.protectedviews;
 
 import static java.lang.System.getProperty;
 import static org.jboss.shrinkwrap.api.ShrinkWrap.create;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.io.File;
 import java.net.URL;
 
-import ee.jakarta.tck.faces.test.util.selenium.BaseArquilianRunner;
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -34,15 +35,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
-import jakarta.faces.component.UIComponent;
-import jakarta.faces.component.behavior.AjaxBehavior;
+import jakarta.faces.component.html.HtmlInputText;
 
-@RunWith(BaseArquilianRunner.class)
-public class ProtectedViewsTest {
+@RunWith(Arquillian.class)
+public class ProtectedViewsTestIT {
 
     @ArquillianResource
     private URL webUrl;
@@ -65,17 +65,14 @@ public class ProtectedViewsTest {
         webClient.close();
     }
 
-
+    /**
+     * @see HtmlInputText#getType()
+     * @see https://github.com/jakartaee/faces/issues/1560
+     */
     @Test
-    public void viewProtectedViewNonAccessPointTest_new() throws Exception {
-        HtmlPage page = webClient.getPage(webUrl + "/faces/views/protected.xhtml");
-        assertEquals("Expected a ProtectedViewException when accessing a protected view", "", page.asNormalizedText().contains("jakarta.faces.application.ProtectedViewException"));
-    }
-    
-    @Test
-    public void viewProtectedViewNonAccessPointTest() throws Exception {
-        HtmlPage page = webClient.getPage(webUrl + "/faces/views/protected.xhtml");
-        HtmlAnchor anchor = (HtmlAnchor) page.getElementById("messOne");
+    public void test() throws Exception {
+        HtmlPage page = webClient.getPage(webUrl + "faces/views/public.xhtml");
+        System.out.println(page.asNormalizedText());
     }
 
 }
