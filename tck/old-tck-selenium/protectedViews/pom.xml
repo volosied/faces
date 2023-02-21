@@ -32,6 +32,6 @@
     <name>Jakarta Faces TCK ${project.version} - Test - Faces 2.2 - protectedViews</name>
 
     <build>
-        <finalName>test-faces22-protectedViews</finalName>
+        <finalName>old-tck-protectedViews</finalName>
     </build>
 </project>

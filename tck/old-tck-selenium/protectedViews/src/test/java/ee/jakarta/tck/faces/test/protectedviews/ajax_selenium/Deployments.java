@@ -1,4 +1,4 @@
-package ee.jakarta.tck.faces.test.servlet50.ajax_selenium;
+package ee.jakarta.tck.faces.test.protectedviews.ajax_selenium;
 
 import ee.jakarta.tck.faces.test.util.selenium.BaseITNG;
 import org.eu.ingwar.tools.arquillian.extension.suite.annotations.ArquillianSuiteDeployment;

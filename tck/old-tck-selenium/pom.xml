@@ -29,7 +29,7 @@
     <artifactId>pom</artifactId>
     <packaging>pom</packaging>
 
-    <name>Jakarta Faces TCK ${project.version} - Test - Faces 4.0</name>
+    <name>Jakarta Faces TCK ${project.version} - Test - Old TCK Selenium</name>
 
     <modules>
         <module>protectedViews</module>

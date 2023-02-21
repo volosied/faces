@@ -14,7 +14,7 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-package ee.jakarta.tck.faces.test.servlet50.ajax_selenium;
+package ee.jakarta.tck.faces.test.protectedviews.ajax_selenium;
 
 import ee.jakarta.tck.faces.test.util.selenium.BaseITNG;
 import ee.jakarta.tck.faces.test.util.selenium.ExtendedTextInput;
