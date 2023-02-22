@@ -14,7 +14,7 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-package ee.jakarta.tck.faces.test.oldtck.protectedviews;
+package ee.jakarta.tck.faces.test.oldtck.protectedviews_selenium;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
@@ -26,10 +26,10 @@ import ee.jakarta.tck.faces.test.util.selenium.ExtendedTextInput;
 import ee.jakarta.tck.faces.test.util.selenium.WebPage;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import jakarta.faces.component.html.HtmlInputText;
 
-@RunWith(Arquillian.class)
 public class ProtectedViewsTestIT extends BaseITNG {
 
   /**
@@ -44,15 +44,14 @@ public class ProtectedViewsTestIT extends BaseITNG {
    */
   @Test
   public void viewProtectedViewNonAccessPointTest() throws Exception {
-    webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
 
-    HtmlPage page = webClient.getPage(webUrl + "faces/views/protected.xhtml");
+    WebPage page = getPage("faces/views/protected.xhtml");
 
-    HtmlAnchor anchor = (HtmlAnchor) page.getElementById("messOne");
+    WebElement anchor = page.findElement(By.id("messOne"));
 
     assertNull("Illegal Access of a Protected View!", anchor);
 
-    assertTrue("Expected a ProtectedViewException when accessing a protected view", page.asNormalizedText().contains("jakarta.faces.application.ProtectedViewException"));
+    assertTrue("Expected a ProtectedViewException when accessing a protected view", page.isInPageText("jakarta.faces.application.ProtectedViewException"));
 
   } 
 
@@ -72,13 +71,14 @@ public class ProtectedViewsTestIT extends BaseITNG {
 
     String expected = "This is a Protected View!";
 
-    HtmlPage page = webClient.getPage(webUrl + "faces/views/public.xhtml");
+    WebPage page = getPage("faces/views/public.xhtml");
 
-    HtmlAnchor anchor = (HtmlAnchor) page.getElementById("form1:linkOne");
+    WebElement anchor = page.findElement(By.id("form1:linkOne"));
+
     assertNotNull("Anchor linkOne should not be null!", anchor);
 
-    HtmlPage protectedPage = anchor.click();
-    assertEquals(expected, protectedPage.getElementById("messOne").asNormalizedText());
+    anchor.click();
+    assertEquals(expected, page.findElement(By.id("messOne")).getText());
 
   } 
 
