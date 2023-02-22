@@ -245,61 +245,33 @@ public class AjaxTestsIT {
     // Test by Resource Library name.
     assertTrue(script.getSrcAttribute().contains("jakarta.faces"));
 
-
-
   }// End ajaxPDLResourceTest
 
+
+  // HELPER METHODS
   private void validateKeyword(List<String> urls, String buttonId,
-    String spanId, String expectedValue) throws Exception {
+      String spanId, String expectedValue) throws Exception {
 
-    for (String url : urls) {
-      HtmlPage page = webClient.getPage(url);
-      HtmlSpan output = (HtmlSpan) page.getElementById(spanId);
-      assertNotNull(output);
+      for (String url : urls) {
+        HtmlPage page = webClient.getPage(url);
+        HtmlSpan output = (HtmlSpan) page.getElementById(spanId);
+        assertNotNull(output);
 
-      // First we'll check the first page was output correctly
-      assertEquals(expectedValue, output.asNormalizedText());
+        // First we'll check the first page was output correctly
+        assertEquals(expectedValue, output.asNormalizedText());
 
-      // Submit the ajax request
-      HtmlSubmitInput button = (HtmlSubmitInput) page.getElementById(buttonId);
-      page = button.click();
+        // Submit the ajax request
+        HtmlSubmitInput button = (HtmlSubmitInput) page.getElementById(buttonId);
+        page = button.click();
 
-      webClient.waitForBackgroundJavaScript(3000);
+        webClient.waitForBackgroundJavaScript(3000);
 
-      // Check that the ajax request succeeds - if the page is rewritten,
-      // this will be the same
-     output = (HtmlSpan) page.getElementById(spanId);
-     assertNotNull(output);
-     assertEquals(expectedValue, output.asNormalizedText());
-
-    }
+        // Check that the ajax request succeeds - if the page is rewritten,
+        // this will be the same
+        output = (HtmlSpan) page.getElementById(spanId);
+        assertNotNull(output);
+        assertEquals(expectedValue, output.asNormalizedText());
+      }
   }
 
-  //   /**
-  //  * Test for a the give @String "expectedValue" to match the value of the
-  //  * named @HtmlSpan "element "spanID".
-  //  * 
-  //  * @param page
-  //  *          - @HtmlPage that contains @HtmlSpan element.
-  //  * @param expectedValue
-  //  *          - The expected result.
-  //  * @param formatter
-  //  *          - used to gather test result output.
-  //  */
-  // private void validateSpanTag(HtmlPage page, String spanId,
-  //     String expectedValue) throws Fault {
-  //   StringBuilder messages = new StringBuilder(128);
-  //   Formatter formatter = new Formatter(messages);
-
-  //   HtmlSpan output = (HtmlSpan) getElementOfTypeIncludingId(page, SPAN,
-  //       spanId);
-
-  //   if (!validateExistence(spanId, SPAN, output, formatter)) {
-  //     handleTestStatus(messages);
-  //     return;
-  //   }
-  //   validateElementValue(output, expectedValue, formatter);
-
-  // }// End validateSpanTag
-  
 }
