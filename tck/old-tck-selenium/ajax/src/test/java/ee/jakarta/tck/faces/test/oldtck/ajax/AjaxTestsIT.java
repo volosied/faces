@@ -14,7 +14,7 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-package ee.jakarta.tck.faces.test.oldtck.protectedviews;
+package ee.jakarta.tck.faces.test.oldtck.ajax;
 
 import static java.lang.System.getProperty;
 import static org.jboss.shrinkwrap.api.ShrinkWrap.create;
@@ -40,12 +40,13 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import jakarta.faces.component.html.HtmlInputText;
 
 @RunWith(Arquillian.class)
-public class ProtectedViewsTestIT {
+public class AjaxTestsIT {
 
     @ArquillianResource
     private URL webUrl;
@@ -68,80 +69,61 @@ public class ProtectedViewsTestIT {
         webClient.close();
     }
 
-    public void ajaxTagWrappingTest() throws Fault {
-      StringBuilder messages = new StringBuilder(128);
-      Formatter formatter = new Formatter(messages);
-  
-      HtmlPage page = getPage(CONTEXT_ROOT + "/faces/ajaxTagWrap.xhtml");
-  
+    // validateSpanTag - HtmlPage page, String spanId, String expectedValue
+
+    @Test
+    public void ajaxTagWrappingTest() throws Exception {
+      HtmlPage page = webClient.getPage(webUrl + "/faces/tagwrapper/ajaxTagWrap.xhtml");
+
+      System.out.println(page.asXml());
+
       // First we'll check the first page was output correctly
-      this.validateSpanTag(page, "out1", "0");
-      this.validateSpanTag(page, "checkedvalue", "false");
-      this.validateSpanTag(page, "outtext", "");
+      HtmlSpan span1 = (HtmlSpan) page.getElementById("out1");
+      assertNotNull(span1);
+      assertEquals("0", span1.asNormalizedText());
+
+      HtmlSpan span2 = (HtmlSpan) page.getElementById("checkedvalue");
+      assertNotNull(span2);
+      assertEquals("false", span2.asNormalizedText());
+
+      HtmlSpan span3 = (HtmlSpan) page.getElementById("outtext");
+      assertNotNull(span3);
+      assertEquals("", span3.asNormalizedText());
   
       // Submit the ajax request
-      HtmlInput button1 = (HtmlInput) getElementOfTypeIncludingId(page, "input",
-          "button1");
+      HtmlInput button1 = (HtmlInput) page.getElementById("button1");
+      assertNotNull(button1);
+      page = button1.click();
   
-      if (!validateExistence("button1", "input", button1, formatter)) {
-        handleTestStatus(messages);
-        return;
-      }
-  
-      try {
-        button1.click();
-      } catch (IOException ex) {
-        formatter.format("Unexpected Execption thrown while clicking '%s'.",
-            button1.getId());
-        ex.printStackTrace();
-      }
-  
+      webClient.waitForBackgroundJavaScript(3000);
+
       // Check that the ajax request succeeds - eventually.
-      this.validateSpanTag(page, "out1", "1");
+      span1 = (HtmlSpan) page.getElementById("out1");
+      assertEquals("1",span1.asNormalizedText());
   
       // // Check on the text field
-      HtmlInput intext = ((HtmlInput) getElementOfTypeIncludingId(page, "input",
-          "intext"));
-  
-      if (!validateExistence("input", "input", intext, formatter)) {
-        handleTestStatus(messages);
-        return;
-      }
-      try {
-        intext.focus();
-        intext.type("test");
-        intext.blur();
-      } catch (IOException ex) {
-        formatter.format("Unexpected Test failing when setting one or "
-            + "more of the following attributes: focus, type, or blur");
-        ex.printStackTrace();
-      }
-  
-      this.validateSpanTag(page, "outtext", "test");
+      HtmlInput intext = (HtmlInput) page.getElementById("intext");
+      assertNotNull(intext);
+      intext.focus();
+      intext.type("test");
+      intext.blur();
+      webClient.waitForBackgroundJavaScript(3000);
+
+      span3 = (HtmlSpan) page.getElementById("outtext");
+      assertNotNull(span3);
+      assertEquals("test", span3.asNormalizedText());
   
       // Check the checkbox
+      HtmlInput checkbox = (HtmlInput) page.getElementById("checkbox");
+      assertNotNull(checkbox);
+      page = (HtmlPage) checkbox.setChecked(true);
+      checkbox = (HtmlInput) page.getElementById("checkbox");
+      assertTrue(checkbox.isChecked());
+
+      // Check for "true" in outtext?
   
-      HtmlInput checkbox = (HtmlInput) getElementOfTypeIncludingId(page, "input",
-          "checkbox");
-  
-      if (!validateExistence("checkbox", "input", checkbox, formatter)) {
-        handleTestStatus(messages);
-        return;
-      }
-  
-      checkbox.setChecked(true);
-  
-      if (!checkbox.isChecked()) {
-        formatter.format(
-            "Unexpected value for '%s'!" + NL + "Expected: '%s'" + NL
-                + "Received: '%s'" + NL,
-            checkbox.getId(), "true", checkbox.isChecked());
-      }
-  
-      handleTestStatus(messages);
     }// End ajaxAllKeywordTest
 
-    https://github.com/jakartaee/faces/blob/3fae98234692ec16545a6d27cf36fabaeb883f9b/tck/old-tck/source/src/com/sun/ts/tests/jsf/spec/ajax/keyword/URLClient.java
   /**
    * @testName: ajaxAllKeywordTest
    * @assertion_ids: PENDING
