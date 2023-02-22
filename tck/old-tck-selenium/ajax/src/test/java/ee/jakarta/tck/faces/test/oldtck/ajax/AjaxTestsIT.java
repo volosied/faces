@@ -239,4 +239,96 @@ public class ProtectedViewsTestIT {
     this.validateScript(getPage(CONTEXT_ROOT + "/faces/pdlApproach.xhtml"));
 
   }// End ajaxPDLResourceTest
+
+  private void validateScript(HtmlPage page) throws Fault {
+    StringBuilder messages = new StringBuilder(128);
+    Formatter formatter = new Formatter(messages);
+    String script = "script";
+
+    // Test by Resource name.
+    HtmlScript resn = (HtmlScript) getElementOfTypeIncludingSrc(page, script,
+        RES_NAME);
+
+    if (resn == null) {
+      formatter.format("Unexpected Test Result For %s Tag! %n"
+          + "Expected Src Attribute to contain: %s %n", script, RES_NAME);
+    }
+
+    // Test by Resource Library name.
+    HtmlScript resl = (HtmlScript) getElementOfTypeIncludingSrc(page, script,
+        LIB_NAME);
+
+    if (resl == null) {
+      formatter.format("Unexpected Test Result For %s Tag! %n"
+          + "Expected Src Attribute to contain: %s %n", script, LIB_NAME);
+    }
+
+    handleTestStatus(messages);
+    formatter.close();
+  }
+
+  private void validateKeyword(List<HtmlPage> pages, String buttonId,
+    String spanId, String expectedValue) throws Fault {
+    StringBuilder messages = new StringBuilder(128);
+    Formatter formatter = new Formatter(messages);
+
+    String span = "span";
+    for (HtmlPage page : pages) {
+      HtmlSpan output = (HtmlSpan) getElementOfTypeIncludingId(page, span,
+          spanId);
+
+      if (!validateExistence(spanId, span, output, formatter)) {
+        handleTestStatus(messages);
+        return;
+      }
+
+      // First we'll check the first page was output correctly
+      validateElementValue(output, expectedValue, formatter);
+
+      // Submit the ajax request
+      HtmlSubmitInput button = (HtmlSubmitInput) getElementOfTypeIncludingId(
+          page, "input", buttonId);
+      try {
+        button.click();
+      } catch (IOException ex) {
+        formatter.format("Unexpected Execption thrown while clicking '%s'.",
+            button.getId());
+        ex.printStackTrace();
+      }
+
+      // Check that the ajax request succeeds - if the page is rewritten,
+      // this will be the same
+      validateElementValue(output, expectedValue, formatter);
+
+      handleTestStatus(messages);
+    }
+  }
+
+    /**
+   * Test for a the give @String "expectedValue" to match the value of the
+   * named @HtmlSpan "element "spanID".
+   * 
+   * @param page
+   *          - @HtmlPage that contains @HtmlSpan element.
+   * @param expectedValue
+   *          - The expected result.
+   * @param formatter
+   *          - used to gather test result output.
+   */
+  private void validateSpanTag(HtmlPage page, String spanId,
+      String expectedValue) throws Fault {
+    StringBuilder messages = new StringBuilder(128);
+    Formatter formatter = new Formatter(messages);
+
+    HtmlSpan output = (HtmlSpan) getElementOfTypeIncludingId(page, SPAN,
+        spanId);
+
+    if (!validateExistence(spanId, SPAN, output, formatter)) {
+      handleTestStatus(messages);
+      return;
+    }
+    validateElementValue(output, expectedValue, formatter);
+
+  }// End validateSpanTag
+  
 }
