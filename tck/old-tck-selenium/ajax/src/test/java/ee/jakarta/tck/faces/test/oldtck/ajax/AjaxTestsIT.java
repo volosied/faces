@@ -25,6 +25,8 @@ import static org.junit.Assert.assertNull;
 
 import java.io.File;
 import java.net.URL;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -42,6 +44,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 
 import jakarta.faces.component.html.HtmlInputText;
 
@@ -132,185 +135,176 @@ public class AjaxTestsIT {
    * 
    * @since 2.0
    */
-  public void ajaxAllKeywordTest() throws Fault {
+  public void ajaxAllKeywordTest() throws Exception {
 
-    List<HtmlPage> pages = new ArrayList<HtmlPage>();
-    pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxAllKeyword1.xhtml"));
-    pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxAllKeyword2.xhtml"));
-    pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxAllKeyword3.xhtml"));
+    String EXPECTED = "testtext";
+
+    List<String> urls = new ArrayList<String>();
+    urls.add(webUrl + "/faces/keyword/ajaxAllKeyword1.xhtml");
+    urls.add(webUrl + "/faces/keyword/ajaxAllKeyword2.xhtml");
+    urls.add(webUrl + "/faces/keyword/ajaxAllKeyword3.xhtml");
 
     String buttonId = "allKeyword";
     String spanId = "out";
 
-    this.validateKeyword(pages, buttonId, spanId, EXPECTED);
+    this.validateKeyword(urls, buttonId, spanId, EXPECTED);
 
   }// End ajaxAllKeywordTest
 
-  /**
-   * @testName: ajaxThisKeywordTest
-   * @assertion_ids: PENDING
-   * @test_Strategy: Unsure the keyword 'this' works correctly with the f:ajax
-   *                 tag as value to 'execute' and 'render' attributes.
-   * 
-   * @since 2.0
-   */
-  public void ajaxThisKeywordTest() throws Fault {
-    List<HtmlPage> pages = new ArrayList<HtmlPage>();
-    pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxThisKeyword1.xhtml"));
-    pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxThisKeyword2.xhtml"));
-    pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxThisKeyword3.xhtml"));
+  // /**
+  //  * @testName: ajaxThisKeywordTest
+  //  * @assertion_ids: PENDING
+  //  * @test_Strategy: Unsure the keyword 'this' works correctly with the f:ajax
+  //  *                 tag as value to 'execute' and 'render' attributes.
+  //  * 
+  //  * @since 2.0
+  //  */
+  // public void ajaxThisKeywordTest() throws Fault {
+  //   List<HtmlPage> pages = new ArrayList<HtmlPage>();
+  //   pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxThisKeyword1.xhtml"));
+  //   pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxThisKeyword2.xhtml"));
+  //   pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxThisKeyword3.xhtml"));
 
-    String buttonId = "thisKeyword";
-    String spanId = "out";
+  //   String buttonId = "thisKeyword";
+  //   String spanId = "out";
 
-    this.validateKeyword(pages, buttonId, spanId, EXPECTED);
-  } // End ajaxThisKeywordTest
+  //   this.validateKeyword(pages, buttonId, spanId, EXPECTED);
+  // } // End ajaxThisKeywordTest
 
-  /**
-   * @testName: ajaxFormKeywordTest
-   * @assertion_ids: PENDING
-   * @test_Strategy: Unsure the keyword 'form' works correctly with the f:ajax
-   *                 tag as value to 'execute' and 'render' attributes.
-   * 
-   * @since 2.0
-   */
-  public void ajaxFormKeywordTest() throws Fault {
-    List<HtmlPage> pages = new ArrayList<HtmlPage>();
-    pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxFormKeyword1.xhtml"));
-    pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxFormKeyword2.xhtml"));
-    pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxFormKeyword3.xhtml"));
+  // /**
+  //  * @testName: ajaxFormKeywordTest
+  //  * @assertion_ids: PENDING
+  //  * @test_Strategy: Unsure the keyword 'form' works correctly with the f:ajax
+  //  *                 tag as value to 'execute' and 'render' attributes.
+  //  * 
+  //  * @since 2.0
+  //  */
+  // public void ajaxFormKeywordTest() throws Fault {
+  //   List<HtmlPage> pages = new ArrayList<HtmlPage>();
+  //   pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxFormKeyword1.xhtml"));
+  //   pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxFormKeyword2.xhtml"));
+  //   pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxFormKeyword3.xhtml"));
 
-    String buttonId = "formKeyword";
-    String spanId = "out";
+  //   String buttonId = "formKeyword";
+  //   String spanId = "out";
 
-    this.validateKeyword(pages, buttonId, spanId, EXPECTED);
-  } // End ajaxThisKeywordTest
+  //   this.validateKeyword(pages, buttonId, spanId, EXPECTED);
+  // } // End ajaxThisKeywordTest
 
-  /**
-   * @testName: ajaxNoneKeywordTest
-   * @assertion_ids: PENDING
-   * @test_Strategy: Unsure the keyword 'none' works correctly with the f:ajax
-   *                 tag as value to 'execute' and 'render' attributes.
-   * 
-   * @since 2.0
-   */
-  public void ajaxNoneKeywordTest() throws Fault {
-    List<HtmlPage> pages = new ArrayList<HtmlPage>();
-    pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxNoneKeyword1.xhtml"));
-    pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxNoneKeyword2.xhtml"));
-    pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxNoneKeyword3.xhtml"));
+  // /**
+  //  * @testName: ajaxNoneKeywordTest
+  //  * @assertion_ids: PENDING
+  //  * @test_Strategy: Unsure the keyword 'none' works correctly with the f:ajax
+  //  *                 tag as value to 'execute' and 'render' attributes.
+  //  * 
+  //  * @since 2.0
+  //  */
+  // public void ajaxNoneKeywordTest() throws Fault {
+  //   List<HtmlPage> pages = new ArrayList<HtmlPage>();
+  //   pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxNoneKeyword1.xhtml"));
+  //   pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxNoneKeyword2.xhtml"));
+  //   pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxNoneKeyword3.xhtml"));
 
-    String buttonId = "noneKeyword";
-    String spanId = "out";
+  //   String buttonId = "noneKeyword";
+  //   String spanId = "out";
 
-    this.validateKeyword(pages, buttonId, spanId, EXPECTED);
-  } // End ajaxThisKeywordTest
+  //   this.validateKeyword(pages, buttonId, spanId, EXPECTED);
+  // } // End ajaxThisKeywordTest
 
-  /**
-   * @testName: ajaxPDLResourceTest
-   * 
-   * @assertion_ids: JSF:SPEC:225; JSF:SPEC:226; JSF:SPEC:227
-   * 
-   * @test_Strategy: Validate that the jsf.js Resource is available via the
-   *                 "Page Declaration Language Approach".
-   * 
-   * @since 2.0
-   */
-  public void ajaxPDLResourceTest() throws Fault {
+  // /**
+  //  * @testName: ajaxPDLResourceTest
+  //  * 
+  //  * @assertion_ids: JSF:SPEC:225; JSF:SPEC:226; JSF:SPEC:227
+  //  * 
+  //  * @test_Strategy: Validate that the jsf.js Resource is available via the
+  //  *                 "Page Declaration Language Approach".
+  //  * 
+  //  * @since 2.0
+  //  */
+  // public void ajaxPDLResourceTest() throws Fault {
 
-    this.validateScript(getPage(CONTEXT_ROOT + "/faces/pdlApproach.xhtml"));
+  //   this.validateScript(getPage(CONTEXT_ROOT + "/faces/pdlApproach.xhtml"));
 
-  }// End ajaxPDLResourceTest
+  // }// End ajaxPDLResourceTest
 
-  private void validateScript(HtmlPage page) throws Fault {
-    StringBuilder messages = new StringBuilder(128);
-    Formatter formatter = new Formatter(messages);
-    String script = "script";
+  // private void validateScript(HtmlPage page) throws Fault {
+  //   StringBuilder messages = new StringBuilder(128);
+  //   Formatter formatter = new Formatter(messages);
+  //   String script = "script";
 
-    // Test by Resource name.
-    HtmlScript resn = (HtmlScript) getElementOfTypeIncludingSrc(page, script,
-        RES_NAME);
+  //   // Test by Resource name.
+  //   HtmlScript resn = (HtmlScript) getElementOfTypeIncludingSrc(page, script,
+  //       RES_NAME);
 
-    if (resn == null) {
-      formatter.format("Unexpected Test Result For %s Tag! %n"
-          + "Expected Src Attribute to contain: %s %n", script, RES_NAME);
-    }
+  //   if (resn == null) {
+  //     formatter.format("Unexpected Test Result For %s Tag! %n"
+  //         + "Expected Src Attribute to contain: %s %n", script, RES_NAME);
+  //   }
 
-    // Test by Resource Library name.
-    HtmlScript resl = (HtmlScript) getElementOfTypeIncludingSrc(page, script,
-        LIB_NAME);
+  //   // Test by Resource Library name.
+  //   HtmlScript resl = (HtmlScript) getElementOfTypeIncludingSrc(page, script,
+  //       LIB_NAME);
 
-    if (resl == null) {
-      formatter.format("Unexpected Test Result For %s Tag! %n"
-          + "Expected Src Attribute to contain: %s %n", script, LIB_NAME);
-    }
+  //   if (resl == null) {
+  //     formatter.format("Unexpected Test Result For %s Tag! %n"
+  //         + "Expected Src Attribute to contain: %s %n", script, LIB_NAME);
+  //   }
 
-    handleTestStatus(messages);
-    formatter.close();
-  }
+  //   handleTestStatus(messages);
+  //   formatter.close();
+  // }
 
-  private void validateKeyword(List<HtmlPage> pages, String buttonId,
-    String spanId, String expectedValue) throws Fault {
-    StringBuilder messages = new StringBuilder(128);
-    Formatter formatter = new Formatter(messages);
+  private void validateKeyword(List<String> urls, String buttonId,
+    String spanId, String expectedValue) throws Exception {
 
-    String span = "span";
-    for (HtmlPage page : pages) {
-      HtmlSpan output = (HtmlSpan) getElementOfTypeIncludingId(page, span,
-          spanId);
-
-      if (!validateExistence(spanId, span, output, formatter)) {
-        handleTestStatus(messages);
-        return;
-      }
+    for (String url : urls) {
+      HtmlPage page = webClient.getPage(url);
+      HtmlSpan output = (HtmlSpan) page.getElementById(spanId);
+      assertNotNull(output);
 
       // First we'll check the first page was output correctly
-      validateElementValue(output, expectedValue, formatter);
+      assertEquals(expectedValue, output.asNormalizedText());
 
       // Submit the ajax request
-      HtmlSubmitInput button = (HtmlSubmitInput) getElementOfTypeIncludingId(
-          page, "input", buttonId);
-      try {
-        button.click();
-      } catch (IOException ex) {
-        formatter.format("Unexpected Execption thrown while clicking '%s'.",
-            button.getId());
-        ex.printStackTrace();
-      }
+      HtmlSubmitInput button = (HtmlSubmitInput) page.getElementById(buttonId);
+      page = button.click();
+
+      webClient.waitForBackgroundJavaScript(3000);
 
       // Check that the ajax request succeeds - if the page is rewritten,
       // this will be the same
-      validateElementValue(output, expectedValue, formatter);
+     output = (HtmlSpan) page.getElementById(spanId);
+     assertNotNull(output);
+     assertEquals(expectedValue, output.asNormalizedText());
 
-      handleTestStatus(messages);
     }
   }
 
-    /**
-   * Test for a the give @String "expectedValue" to match the value of the
-   * named @HtmlSpan "element "spanID".
-   * 
-   * @param page
-   *          - @HtmlPage that contains @HtmlSpan element.
-   * @param expectedValue
-   *          - The expected result.
-   * @param formatter
-   *          - used to gather test result output.
-   */
-  private void validateSpanTag(HtmlPage page, String spanId,
-      String expectedValue) throws Fault {
-    StringBuilder messages = new StringBuilder(128);
-    Formatter formatter = new Formatter(messages);
+  //   /**
+  //  * Test for a the give @String "expectedValue" to match the value of the
+  //  * named @HtmlSpan "element "spanID".
+  //  * 
+  //  * @param page
+  //  *          - @HtmlPage that contains @HtmlSpan element.
+  //  * @param expectedValue
+  //  *          - The expected result.
+  //  * @param formatter
+  //  *          - used to gather test result output.
+  //  */
+  // private void validateSpanTag(HtmlPage page, String spanId,
+  //     String expectedValue) throws Fault {
+  //   StringBuilder messages = new StringBuilder(128);
+  //   Formatter formatter = new Formatter(messages);
 
-    HtmlSpan output = (HtmlSpan) getElementOfTypeIncludingId(page, SPAN,
-        spanId);
+  //   HtmlSpan output = (HtmlSpan) getElementOfTypeIncludingId(page, SPAN,
+  //       spanId);
 
-    if (!validateExistence(spanId, SPAN, output, formatter)) {
-      handleTestStatus(messages);
-      return;
-    }
-    validateElementValue(output, expectedValue, formatter);
+  //   if (!validateExistence(spanId, SPAN, output, formatter)) {
+  //     handleTestStatus(messages);
+  //     return;
+  //   }
+  //   validateElementValue(output, expectedValue, formatter);
 
-  }// End validateSpanTag
+  // }// End validateSpanTag
   
 }
