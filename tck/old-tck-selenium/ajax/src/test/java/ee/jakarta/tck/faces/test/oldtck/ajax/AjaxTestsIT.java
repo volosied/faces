@@ -135,6 +135,7 @@ public class AjaxTestsIT {
    * 
    * @since 2.0
    */
+  @Test
   public void ajaxAllKeywordTest() throws Exception {
 
     String EXPECTED = "testtext";
@@ -144,31 +145,35 @@ public class AjaxTestsIT {
     urls.add(webUrl + "/faces/keyword/ajaxAllKeyword2.xhtml");
     urls.add(webUrl + "/faces/keyword/ajaxAllKeyword3.xhtml");
 
-    String buttonId = "allKeyword";
-    String spanId = "out";
+    String buttonId = "form:allKeyword";
+    String spanId = "form:out";
 
     this.validateKeyword(urls, buttonId, spanId, EXPECTED);
 
   }// End ajaxAllKeywordTest
 
-  // /**
-  //  * @testName: ajaxThisKeywordTest
-  //  * @assertion_ids: PENDING
-  //  * @test_Strategy: Unsure the keyword 'this' works correctly with the f:ajax
-  //  *                 tag as value to 'execute' and 'render' attributes.
-  //  * 
-  //  * @since 2.0
-  //  */
-  // public void ajaxThisKeywordTest() throws Fault {
-  //   List<HtmlPage> pages = new ArrayList<HtmlPage>();
-  //   pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxThisKeyword1.xhtml"));
-  //   pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxThisKeyword2.xhtml"));
-  //   pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxThisKeyword3.xhtml"));
+  /**
+   * @testName: ajaxThisKeywordTest
+   * @assertion_ids: PENDING
+   * @test_Strategy: Unsure the keyword 'this' works correctly with the f:ajax
+   *                 tag as value to 'execute' and 'render' attributes.
+   * 
+   * @since 2.0
+   */
+  // @Test
+  // public void ajaxThisKeywordTest() throws Exception {
 
-  //   String buttonId = "thisKeyword";
-  //   String spanId = "out";
+  //   String EXPECTED = "testtext";
 
-  //   this.validateKeyword(pages, buttonId, spanId, EXPECTED);
+  //   List<String> urls = new ArrayList<String>();
+  //   urls.add(webUrl + "/faces/ajaxThisKeyword1.xhtml");
+  //   urls.add(webUrl + "/faces/ajaxThisKeyword2.xhtml");
+  //   urls.add(webUrl + "/faces/ajaxThisKeyword3.xhtml");
+
+  //   String buttonId = "form:thisKeyword";
+  //   String spanId = "form:out";
+
+  //   this.validateKeyword(urls, buttonId, spanId, EXPECTED);
   // } // End ajaxThisKeywordTest
 
   // /**
@@ -258,7 +263,9 @@ public class AjaxTestsIT {
     String spanId, String expectedValue) throws Exception {
 
     for (String url : urls) {
+      System.out.println("Going to page: " + url);
       HtmlPage page = webClient.getPage(url);
+      System.out.println(page.asXml());
       HtmlSpan output = (HtmlSpan) page.getElementById(spanId);
       assertNotNull(output);
 
