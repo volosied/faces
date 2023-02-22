@@ -14,11 +14,12 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-package ee.jakarta.tck.faces.test.oldtck.ajax;
+package ee.jakarta.tck.faces.test.oldtck.commandlink;
 
 import static java.lang.System.getProperty;
 import static org.jboss.shrinkwrap.api.ShrinkWrap.create;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -50,7 +51,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlScript;
 import jakarta.faces.component.html.HtmlInputText;
 
 @RunWith(Arquillian.class)
-public class AjaxTestsIT {
+public class CommandLinkTestsIT {
 
     @ArquillianResource
     private URL webUrl;
@@ -114,181 +115,45 @@ public class AjaxTestsIT {
    * 
    * @since 1.2
    */
-  public void clinkRenderEncodeTest() throws Fault {
+  @Test
+  public void clinkRenderEncodeTest() throws Exception {
 
-    StringBuilder messages = new StringBuilder(64);
-    Formatter formatter = new Formatter(messages);
+    HtmlPage page = webClient.getPage(webUrl + "/faces/encodetest_facelet.xhtml");
 
-    List<HtmlPage> pages = new ArrayList<HtmlPage>();
-    pages.add(getPage(CONTEXT_ROOT + "/faces/encodetest_facelet.xhtml"));
+    HtmlAnchor link1 = (HtmlAnchor) page.getElementById("form:link1"); // form:link1? 
+    assertNotNull(link1);
+    assertEquals("#",link1.getHrefAttribute());
+    assertEquals("Click Me1",link1.asNormalizedText());
+    assertFalse(link1.getOnClickAttribute().length() < 0);
 
-    for (HtmlPage page : pages) {
+    HtmlAnchor link2 = (HtmlAnchor) page.getElementById("form:link2"); // form:link1? 
+    assertNotNull(link2);
+    assertEquals("#",link1.getHrefAttribute());
+    assertEquals("Click Me2",link2.asNormalizedText());
+    assertEquals("sansserif", link2.getAttribute("class"));
+    assertFalse(link2.getOnClickAttribute().length() < 0);
 
-      HtmlAnchor link1 = (HtmlAnchor) getElementOfTypeIncludingId(page, "a",
-          "link1");
+    HtmlAnchor link3 = (HtmlAnchor) page.getElementById("form:link3"); // form:link1? 
+    assertNotNull(link2);
+    assertEquals("#",link3.getHrefAttribute());
+    assertEquals("Click Me3",link3.asNormalizedText());
+    assertFalse(link3.getOnClickAttribute().length() < 0);
 
-      if (link1 == null) {
-        formatter.format("Unable to find achor with ID containing 'link1'. %n");
-      } else {
-        if (!"#".equals(link1.getHrefAttribute())) {
-          formatter.format(
-              "Unexpected value for attribute 'href'. "
-                  + "Expected '#', received: '%s' %n",
-              link1.getHrefAttribute());
-        }
+    HtmlSpan link5 = (HtmlSpan) page.getElementById("form:link5"); // form:link1? 
+    assertNotNull(link5);
+    assertEquals("sansserif", link5.getAttribute("class"));
+    assertEquals("Disabled Link",link5.asNormalizedText());
+    assertFalse(link5.getOnClickAttribute().length() < 0);
 
-        if (!"Click Me1".equals(link1.asNormalizedText())) {
-          formatter.format("Unexpected anchor text. %n" + "Expected: '%s' %n"
-              + "Received: '%s' %n", "Click Me1", link1.asNormalizedText());
-        }
+    HtmlSpan span2 = (HtmlSpan) page.getElementById("form:link6"); // form:link1? 
+    assertNotNull(span2);
+    assertEquals("Disabled Link(Nested)",span2.asNormalizedText());
 
-        if (link1.getOnClickAttribute().length() < 0) {
-          formatter.format("Expected some render specific content "
-              + "to be rendered in the 'onclick' attribute for "
-              + "the anchor, but no content was found. %n");
-        }
-      }
-
-      HtmlAnchor link2 = (HtmlAnchor) getElementOfTypeIncludingId(page, "a",
-          "link2");
-
-      if (link2 == null) {
-        formatter.format("Unable to find achor with ID containing 'link1'. %n");
-      } else {
-        if (!"#".equals(link2.getHrefAttribute())) {
-          formatter.format(
-              "Unexpected value for attribute 'href'. "
-                  + "Expected '#', received: '%s' %n",
-              link2.getHrefAttribute());
-        }
-
-        if (!"Click Me2".equals(link2.asNormalizedText())) {
-          formatter.format("Unexpected anchor text. %n" + "Expected '%s' %n"
-              + "Received: '%s' %n", "Click Me2", link2.asNormalizedText());
-        }
-
-        if (!"sansserif".equals(link2.getAttribute("class"))) {
-          formatter.format(
-              "Unexpected value for class attribute. "
-                  + "Expected 'sansserif' %n" + "Received: '%s'",
-              link2.getAttribute("style"));
-        }
-
-        if (link2.getOnClickAttribute().length() < 0) {
-          formatter.format("Expected some render specific content "
-              + "to be rendered in the 'onclick' attribute for "
-              + "the anchor, but no content was found. %n");
-        }
-      }
-
-      HtmlAnchor link3 = (HtmlAnchor) getElementOfTypeIncludingId(page, "a",
-          "link3");
-
-      if (link3 == null) {
-        formatter.format("Unable to find achor with ID containing 'link3'. %n");
-      } else {
-        if (!"#".equals(link3.getHrefAttribute())) {
-          formatter.format(
-              "Unexpected value for attribute 'href'. "
-                  + "Expected '#', received: '%s' %n",
-              link3.getHrefAttribute());
-        }
-
-        if (!"Click Me3".equals(link3.asNormalizedText())) {
-          formatter.format("Unexpected anchor text.  "
-              + "Expected 'Click M3'to be the anchor text "
-              + "when specified as a nested child (HtmlOutput), "
-              + "but received: '%s' %n", link3.asNormalizedText());
-        }
-
-        if (link3.getOnClickAttribute().length() < 0) {
-          formatter.format("Expected some render specific content "
-              + "to be rendered in the 'onclick' attribute for "
-              + "the anchor, but no content was found. %n");
-        }
-      }
-
-      // ----------------------------------------------------------- case
-      // 5
-      HtmlSpan span = (HtmlSpan) getElementOfTypeIncludingId(page, "span",
-          "link5");
-
-      if (span == null) {
-        formatter.format("Unable to find a span element with an ID"
-            + " containing 'link5' %n");
-      } else {
-        if (!"sansserif".equals(span.getAttribute("class"))) {
-          formatter.format("Unexpected value for class attribute "
-              + "for the rendered span element when CommandLink "
-              + "is disabled. Expected 'sansserif'%n, " + "but received '%s'%n",
-              span.getAttribute("class"));
-        }
-
-        if (!"Disabled Link".equals(span.asNormalizedText())) {
-          formatter.format(
-              "Unexpected textual value for rendered "
-                  + "span element when command link is disabled%n.  "
-                  + "Expected 'Disabled Link'%n, but received '%s'%n",
-              span.asNormalizedText());
-        }
-
-        if (span.getOnClickAttribute().length() > 0) {
-          formatter.format("Expected no render specific content "
-              + "to be rendered in the 'onclick' attribute for "
-              + "the span element, but content was found. %n");
-        }
-      }
-
-      // ----------------------------------------------------------- case
-      // 6
-      HtmlSpan span2 = (HtmlSpan) getElementOfTypeIncludingId(page, "span",
-          "link6");
-
-      if (span2 == null) {
-        formatter.format("Unable to find a span element with an ID"
-            + " containing 'link6' %n");
-      } else {
-        if (!"Disabled Link(Nested)".equals(span2.asNormalizedText())) {
-          formatter.format("Unexpected textual value for rendered "
-              + "span element when command link is disabled. "
-              + "Expected 'Disabled Link(Nested)', " + "but received '%s' %n",
-              span2.asNormalizedText());
-        }
-      }
-
-      // ----------------------------------------------------------- case
-      // 7
-      HtmlAnchor span7 = (HtmlAnchor) getElementOfTypeIncludingId(page, "a",
-          "link7");
-
-      if (span7 == null) {
-        formatter.format(
-            "Unable to find a span element with an ID" + " containing 'link7'");
-      } else {
-        if (!"sansserif".equals(span7.getAttribute("class"))) {
-          formatter.format("Unexpected value for class attribute " + "for "
-              + "the rendered anchor element when CommandLink is "
-              + "disabled. Expected 'sansserif'%n, " + "but received '%s'%n",
-              span7.getAttribute("class"));
-        }
-
-        if (!"rectangle".equals(span7.getShapeAttribute())) {
-          formatter.format("Unexpected value for shape attribute "
-              + "for the rendered anchor element when "
-              + "CommandLink is disabled. Expected 'gone'%n, "
-              + "but received '%s'%n", span7.getShapeAttribute());
-        }
-
-        if (!"gone".equals(span7.getAttribute("title"))) {
-          formatter.format("Unexpected value for title attribute "
-              + "for the rendered anchor element when "
-              + "CommandLink is disabled. Expected 'gone'%n, "
-              + "but received '%s'%n", span7.getAttribute("title"));
-        }
-      }
-
-      handleTestStatus(messages);
-    }
+    HtmlAnchor span7 = (HtmlAnchor) page.getElementById("form:link7"); // form:link1? 
+    assertNotNull(span7);
+    assertEquals("sansserif",span7.getAttribute("class"));
+    assertEquals("rectangle",span7.getShapeAttribute());
+    assertEquals("gone",span7.getAttribute("title"));
   } // END clinkRenderEncodeTest
 
   /**
