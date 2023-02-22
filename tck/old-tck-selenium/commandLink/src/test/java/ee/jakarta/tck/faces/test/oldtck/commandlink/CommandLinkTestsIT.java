@@ -177,10 +177,10 @@ public class CommandLinkTestsIT {
 
     String msgHeader = postBack.getWebResponse().getResponseHeaderValue("actionEvent");
     if(msgHeader != null) {
+      fail(msgHeader); // actionEvent is error header, see SimpleActionListener
+    } else {
       msgHeader = postBack.getWebResponse().getResponseHeaderValue("actionEventOK");
       assertNotNull("ActionListener was not invoked when CommandButton 'command1' was clicked.", msgHeader);
-    } else {
-      fail(msgHeader); // actionEvent is error header, see SimpleActionListener
     }
   } // END clinkRenderDecodeTest
 
@@ -195,134 +195,134 @@ public class CommandLinkTestsIT {
    * 
    * @since 1.2
    */
-  // public void clinkRenderPassthroughTest() throws Fault {
+  public void clinkRenderPassthroughTest() throws Fault {
 
-  //   TreeMap<String, String> control = new TreeMap<String, String>();
-  //   control.put("accesskey", "U");
-  //   control.put("charset", "ISO-8859-1");
-  //   control.put("coords", "31,45");
-  //   control.put("dir", "LTR");
-  //   control.put("hreflang", "en");
-  //   control.put("lang", "en");
-  //   control.put("onblur", "js1");
-  //   control.put("ondblclick", "js3");
-  //   control.put("onfocus", "js4");
-  //   control.put("onkeydown", "js5");
-  //   control.put("onkeypress", "js6");
-  //   control.put("onkeyup", "js7");
-  //   control.put("onmousedown", "js8");
-  //   control.put("onmousemove", "js9");
-  //   control.put("onmouseout", "js10");
-  //   control.put("onmouseover", "js11");
-  //   control.put("onmouseup", "js12");
-  //   control.put("rel", "somevalue");
-  //   control.put("rev", "revsomevalue");
-  //   control.put("shape", "rect");
-  //   control.put("style", "Color: red;");
-  //   control.put("tabindex", "0");
-  //   control.put("title", "sample");
-  //   control.put("type", "type");
+    TreeMap<String, String> control = new TreeMap<String, String>();
+    control.put("accesskey", "U");
+    control.put("charset", "ISO-8859-1");
+    control.put("coords", "31,45");
+    control.put("dir", "LTR");
+    control.put("hreflang", "en");
+    control.put("lang", "en");
+    control.put("onblur", "js1");
+    control.put("ondblclick", "js3");
+    control.put("onfocus", "js4");
+    control.put("onkeydown", "js5");
+    control.put("onkeypress", "js6");
+    control.put("onkeyup", "js7");
+    control.put("onmousedown", "js8");
+    control.put("onmousemove", "js9");
+    control.put("onmouseout", "js10");
+    control.put("onmouseover", "js11");
+    control.put("onmouseup", "js12");
+    control.put("rel", "somevalue");
+    control.put("rev", "revsomevalue");
+    control.put("shape", "rect");
+    control.put("style", "Color: red;");
+    control.put("tabindex", "0");
+    control.put("title", "sample");
+    control.put("type", "type");
 
-  //   TreeMap<String, String> controlSpan = new TreeMap<String, String>();
-  //   controlSpan.put("accesskey", "U");
-  //   controlSpan.put("dir", "LTR");
-  //   controlSpan.put("lang", "en");
-  //   controlSpan.put("onblur", "js1");
-  //   controlSpan.put("ondblclick", "js3");
-  //   controlSpan.put("onfocus", "js4");
-  //   controlSpan.put("onkeydown", "js5");
-  //   controlSpan.put("onkeypress", "js6");
-  //   controlSpan.put("onkeyup", "js7");
-  //   controlSpan.put("onmousedown", "js8");
-  //   controlSpan.put("onmousemove", "js9");
-  //   controlSpan.put("onmouseout", "js10");
-  //   controlSpan.put("onmouseover", "js11");
-  //   controlSpan.put("onmouseup", "js12");
-  //   controlSpan.put("style", "Color: red;");
-  //   controlSpan.put("tabindex", "0");
-  //   controlSpan.put("title", "sample");
+    TreeMap<String, String> controlSpan = new TreeMap<String, String>();
+    controlSpan.put("accesskey", "U");
+    controlSpan.put("dir", "LTR");
+    controlSpan.put("lang", "en");
+    controlSpan.put("onblur", "js1");
+    controlSpan.put("ondblclick", "js3");
+    controlSpan.put("onfocus", "js4");
+    controlSpan.put("onkeydown", "js5");
+    controlSpan.put("onkeypress", "js6");
+    controlSpan.put("onkeyup", "js7");
+    controlSpan.put("onmousedown", "js8");
+    controlSpan.put("onmousemove", "js9");
+    controlSpan.put("onmouseout", "js10");
+    controlSpan.put("onmouseover", "js11");
+    controlSpan.put("onmouseup", "js12");
+    controlSpan.put("style", "Color: red;");
+    controlSpan.put("tabindex", "0");
+    controlSpan.put("title", "sample");
  
 
-  //   StringBuilder messages = new StringBuilder(64);
-  //   Formatter formatter = new Formatter(messages);
+    StringBuilder messages = new StringBuilder(64);
+    Formatter formatter = new Formatter(messages);
 
-  //   List<HtmlPage> pages = new ArrayList<HtmlPage>();
-  //   pages.add(getPage(CONTEXT_ROOT + "/faces/passthroughtest.xhtml"));
-  //   pages.add(getPage(CONTEXT_ROOT + "/faces/passthroughtest_facelet.xhtml"));
+    List<HtmlPage> pages = new ArrayList<HtmlPage>();
+    pages.add(getPage(CONTEXT_ROOT + "/faces/passthroughtest.xhtml"));
+    pages.add(getPage(CONTEXT_ROOT + "/faces/passthroughtest_facelet.xhtml"));
 
-  //   for (HtmlPage page : pages) {
+    for (HtmlPage page : pages) {
 
-  //     // Facelet Specific PassThrough options
-  //     if (page.getTitleText().contains("facelet")) {
-  //       control.put("foo", "bar");
-  //       control.put("singleatt", "singleAtt");
-  //       control.put("manyattone", "manyOne");
-  //       control.put("manyatttwo", "manyTwo");
-  //       control.put("manyattthree", "manyThree");
-  //       controlSpan.put("foo", "bar");
-  //       controlSpan.put("singleatt", "singleAtt");
-  //       controlSpan.put("manyattone", "manyOne");
-  //       controlSpan.put("manyatttwo", "manyTwo");
-  //       controlSpan.put("manyattthree", "manyThree");
-  //     }
+      // Facelet Specific PassThrough options
+      if (page.getTitleText().contains("facelet")) {
+        control.put("foo", "bar");
+        control.put("singleatt", "singleAtt");
+        control.put("manyattone", "manyOne");
+        control.put("manyatttwo", "manyTwo");
+        control.put("manyattthree", "manyThree");
+        controlSpan.put("foo", "bar");
+        controlSpan.put("singleatt", "singleAtt");
+        controlSpan.put("manyattone", "manyOne");
+        controlSpan.put("manyatttwo", "manyTwo");
+        controlSpan.put("manyattthree", "manyThree");
+      }
 
-  //     HtmlAnchor anchor = (HtmlAnchor) getElementOfTypeIncludingId(page, "a",
-  //         "link1");
-  //     HtmlSpan span = (HtmlSpan) getElementOfTypeIncludingId(page, "span",
-  //         "link2");
+      HtmlAnchor anchor = (HtmlAnchor) getElementOfTypeIncludingId(page, "a",
+          "link1");
+      HtmlSpan span = (HtmlSpan) getElementOfTypeIncludingId(page, "span",
+          "link2");
 
-  //     if (anchor == null) {
-  //       formatter.format("Unable to find rendered anchor with ID "
-  //           + "containing 'link1' %n");
-  //     }
+      if (anchor == null) {
+        formatter.format("Unable to find rendered anchor with ID "
+            + "containing 'link1' %n");
+      }
 
-  //     if (span == null) {
-  //       formatter.format(
-  //           "Unable to find rendered span with ID " + "containing 'link2' %n");
-  //     }
+      if (span == null) {
+        formatter.format(
+            "Unable to find rendered span with ID " + "containing 'link2' %n");
+      }
 
-  //     if (span == null || anchor == null) {
-  //       return;
-  //     }
+      if (span == null || anchor == null) {
+        return;
+      }
 
-  //     validateAttributeSet(control, anchor,
-  //         new String[] { "name", "id", "value", "href", "onclick" }, formatter);
+      validateAttributeSet(control, anchor,
+          new String[] { "name", "id", "value", "href", "onclick" }, formatter);
 
-  //     validateAttributeSet(controlSpan, span,
-  //         new String[] { "name", "id", "value", "href", "onclick" }, formatter);
+      validateAttributeSet(controlSpan, span,
+          new String[] { "name", "id", "value", "href", "onclick" }, formatter);
 
-  //     handleTestStatus(messages);
-  //   }
+      handleTestStatus(messages);
+    }
 
-  // } // END clinkRenderPassthroughTest
+  } // END clinkRenderPassthroughTest
 
-  // protected void validateAttributeSet(TreeMap<String, String> control,
-  //   HtmlElement underTest, String[] ignoredAttributes, Formatter formatter) {
+  protected void validateAttributeSet(TreeMap<String, String> control,
+    HtmlElement underTest, String[] ignoredAttributes, Formatter formatter) {
 
-  //   Arrays.sort(ignoredAttributes);
-  //   TreeMap<String, String> fromPage = new TreeMap<String, String>();
-  //   for (Iterator i = underTest.getAttributesMap().values().iterator(); i
-  //       .hasNext();) {
-  //     DomAttr domEntry = (DomAttr) i.next();
-  //     String key = domEntry.getName();
-  //     if (Arrays.binarySearch(ignoredAttributes, key) > -1) {
-  //       continue;
-  //     }
-  //     // fromPage.put(key, entry.getValue());
-  //     fromPage.put(key, domEntry.getValue());
-  //   }
+    Arrays.sort(ignoredAttributes);
+    TreeMap<String, String> fromPage = new TreeMap<String, String>();
+    for (Iterator i = underTest.getAttributesMap().values().iterator(); i
+        .hasNext();) {
+      DomAttr domEntry = (DomAttr) i.next();
+      String key = domEntry.getName();
+      if (Arrays.binarySearch(ignoredAttributes, key) > -1) {
+        continue;
+      }
+      // fromPage.put(key, entry.getValue());
+      fromPage.put(key, domEntry.getValue());
+    }
 
-  //   if (!control.equals(fromPage)) {
-  //     formatter.format("%n Unexpected result when validating "
-  //         + "passthrough attributes received for the rendered "
-  //         + "'%s' in the response.%n", underTest.getTagName());
-  //     formatter.format("%nExpected attribute key/value pairs:%n%s",
-  //         control.toString());
-  //     formatter.format(
-  //         "%nAttribute key/value pairs from the " + "response:%n%s",
-  //         fromPage.toString());
-  //   }
+    if (!control.equals(fromPage)) {
+      formatter.format("%n Unexpected result when validating "
+          + "passthrough attributes received for the rendered "
+          + "'%s' in the response.%n", underTest.getTagName());
+      formatter.format("%nExpected attribute key/value pairs:%n%s",
+          control.toString());
+      formatter.format(
+          "%nAttribute key/value pairs from the " + "response:%n%s",
+          fromPage.toString());
+    }
 
-  // } // END validateAttributeSet
+  } // END validateAttributeSet
 
 }
