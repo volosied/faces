@@ -160,61 +160,67 @@ public class AjaxTestsIT {
    * 
    * @since 2.0
    */
-  // @Test
-  // public void ajaxThisKeywordTest() throws Exception {
+  @Test
+  public void ajaxThisKeywordTest() throws Exception {
 
-  //   String EXPECTED = "testtext";
+    String EXPECTED = "testtext";
 
-  //   List<String> urls = new ArrayList<String>();
-  //   urls.add(webUrl + "/faces/ajaxThisKeyword1.xhtml");
-  //   urls.add(webUrl + "/faces/ajaxThisKeyword2.xhtml");
-  //   urls.add(webUrl + "/faces/ajaxThisKeyword3.xhtml");
+    List<String> urls = new ArrayList<String>();
+    urls.add(webUrl + "/faces/keyword/ajaxThisKeyword1.xhtml");
+    urls.add(webUrl + "/faces/keyword/ajaxThisKeyword2.xhtml");
+    urls.add(webUrl + "/faces/keyword/ajaxThisKeyword3.xhtml");
 
-  //   String buttonId = "form:thisKeyword";
-  //   String spanId = "form:out";
+    String buttonId = "form:thisKeyword";
+    String spanId = "form:out";
 
-  //   this.validateKeyword(urls, buttonId, spanId, EXPECTED);
-  // } // End ajaxThisKeywordTest
+    this.validateKeyword(urls, buttonId, spanId, EXPECTED);
+  } // End ajaxThisKeywordTest
 
-  // /**
-  //  * @testName: ajaxFormKeywordTest
-  //  * @assertion_ids: PENDING
-  //  * @test_Strategy: Unsure the keyword 'form' works correctly with the f:ajax
-  //  *                 tag as value to 'execute' and 'render' attributes.
-  //  * 
-  //  * @since 2.0
-  //  */
-  // public void ajaxFormKeywordTest() throws Fault {
-  //   List<HtmlPage> pages = new ArrayList<HtmlPage>();
-  //   pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxFormKeyword1.xhtml"));
-  //   pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxFormKeyword2.xhtml"));
-  //   pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxFormKeyword3.xhtml"));
+  /**
+   * @testName: ajaxFormKeywordTest
+   * @assertion_ids: PENDING
+   * @test_Strategy: Unsure the keyword 'form' works correctly with the f:ajax
+   *                 tag as value to 'execute' and 'render' attributes.
+   * 
+   * @since 2.0
+   */
+  public void ajaxFormKeywordTest() throws Exception {
 
-  //   String buttonId = "formKeyword";
-  //   String spanId = "out";
+    String EXPECTED = "testtext";
 
-  //   this.validateKeyword(pages, buttonId, spanId, EXPECTED);
-  // } // End ajaxThisKeywordTest
+    List<String> urls = new ArrayList<String>();
+    urls.add(webUrl + "/faces/keyword/ajaxFormKeyword1.xhtml");
+    urls.add(webUrl + "/faces/keyword/ajaxFormKeyword2.xhtml");
+    urls.add(webUrl + "/faces/keyword/ajaxFormKeyword3.xhtml");
 
-  // /**
-  //  * @testName: ajaxNoneKeywordTest
-  //  * @assertion_ids: PENDING
-  //  * @test_Strategy: Unsure the keyword 'none' works correctly with the f:ajax
-  //  *                 tag as value to 'execute' and 'render' attributes.
-  //  * 
-  //  * @since 2.0
-  //  */
-  // public void ajaxNoneKeywordTest() throws Fault {
-  //   List<HtmlPage> pages = new ArrayList<HtmlPage>();
-  //   pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxNoneKeyword1.xhtml"));
-  //   pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxNoneKeyword2.xhtml"));
-  //   pages.add(getPage(CONTEXT_ROOT + "/faces/ajaxNoneKeyword3.xhtml"));
+    String buttonId = "form:formKeyword";
+    String spanId = "form:out";
 
-  //   String buttonId = "noneKeyword";
-  //   String spanId = "out";
+    this.validateKeyword(urls, buttonId, spanId, EXPECTED);
+  } // End ajaxThisKeywordTest
 
-  //   this.validateKeyword(pages, buttonId, spanId, EXPECTED);
-  // } // End ajaxThisKeywordTest
+  /**
+   * @testName: ajaxNoneKeywordTest
+   * @assertion_ids: PENDING
+   * @test_Strategy: Unsure the keyword 'none' works correctly with the f:ajax
+   *                 tag as value to 'execute' and 'render' attributes.
+   * 
+   * @since 2.0
+   */
+  public void ajaxNoneKeywordTest() throws Exception {
+
+    String EXPECTED = "testtext";
+
+    List<String> urls = new ArrayList<String>();
+    urls.add(webUrl + "/faces/keyword/ajaxNoneKeyword1.xhtml");
+    urls.add(webUrl + "/faces/keyword/ajaxNoneKeyword2.xhtml");
+    urls.add(webUrl + "/faces/keyword/ajaxNoneKeyword3.xhtml");
+
+    String buttonId = "form:noneKeyword";
+    String spanId = "form:out";
+
+    this.validateKeyword(urls, buttonId, spanId, EXPECTED);
+  } // End ajaxThisKeywordTest
 
   // /**
   //  * @testName: ajaxPDLResourceTest
@@ -263,9 +269,7 @@ public class AjaxTestsIT {
     String spanId, String expectedValue) throws Exception {
 
     for (String url : urls) {
-      System.out.println("Going to page: " + url);
       HtmlPage page = webClient.getPage(url);
-      System.out.println(page.asXml());
       HtmlSpan output = (HtmlSpan) page.getElementById(spanId);
       assertNotNull(output);
 
