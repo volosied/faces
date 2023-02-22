@@ -47,9 +47,7 @@ public class ProtectedViewsTestIT extends BaseITNG {
 
     WebPage page = getPage("faces/views/protected.xhtml");
 
-    WebElement anchor = page.findElement(By.id("messOne"));
-
-    assertNull("Illegal Access of a Protected View!", anchor);
+    assertTrue("Illegal Access of a Protected View!", page.findElements​(By.id("messOne")).size() == 0);
 
     assertTrue("Expected a ProtectedViewException when accessing a protected view", page.isInPageText("jakarta.faces.application.ProtectedViewException"));
 
@@ -74,8 +72,6 @@ public class ProtectedViewsTestIT extends BaseITNG {
     WebPage page = getPage("faces/views/public.xhtml");
 
     WebElement anchor = page.findElement(By.id("form1:linkOne"));
-
-    assertNotNull("Anchor linkOne should not be null!", anchor);
 
     anchor.click();
     assertEquals(expected, page.findElement(By.id("messOne")).getText());
