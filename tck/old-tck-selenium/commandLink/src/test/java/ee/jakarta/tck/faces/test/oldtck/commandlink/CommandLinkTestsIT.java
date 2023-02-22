@@ -27,8 +27,11 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.net.URL;
-import java.util.List;
+import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeMap;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -41,6 +44,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.DomAttr;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
@@ -195,7 +199,8 @@ public class CommandLinkTestsIT {
    * 
    * @since 1.2
    */
-  public void clinkRenderPassthroughTest() throws Fault {
+  @Test
+  public void clinkRenderPassthroughTest() throws Exception {
 
     TreeMap<String, String> control = new TreeMap<String, String>();
     control.put("accesskey", "U");
@@ -241,14 +246,10 @@ public class CommandLinkTestsIT {
     controlSpan.put("style", "Color: red;");
     controlSpan.put("tabindex", "0");
     controlSpan.put("title", "sample");
- 
-
-    StringBuilder messages = new StringBuilder(64);
-    Formatter formatter = new Formatter(messages);
 
     List<HtmlPage> pages = new ArrayList<HtmlPage>();
-    pages.add(getPage(CONTEXT_ROOT + "/faces/passthroughtest.xhtml"));
-    pages.add(getPage(CONTEXT_ROOT + "/faces/passthroughtest_facelet.xhtml"));
+    pages.add(webClient.getPage(webUrl + "/faces/passthroughtest.xhtml"));
+    pages.add(webClient.getPage(webUrl + "/faces/passthroughtest_facelet.xhtml"));
 
     for (HtmlPage page : pages) {
 
@@ -266,38 +267,23 @@ public class CommandLinkTestsIT {
         controlSpan.put("manyattthree", "manyThree");
       }
 
-      HtmlAnchor anchor = (HtmlAnchor) getElementOfTypeIncludingId(page, "a",
-          "link1");
-      HtmlSpan span = (HtmlSpan) getElementOfTypeIncludingId(page, "span",
-          "link2");
-
-      if (anchor == null) {
-        formatter.format("Unable to find rendered anchor with ID "
-            + "containing 'link1' %n");
-      }
-
-      if (span == null) {
-        formatter.format(
-            "Unable to find rendered span with ID " + "containing 'link2' %n");
-      }
-
-      if (span == null || anchor == null) {
-        return;
-      }
+      HtmlAnchor anchor = (HtmlAnchor) page.getElementById("form:link1");
+      assertNotNull(anchor);
+      HtmlSpan span = (HtmlSpan) page.getElementById("form:link2");
+      assertNotNull(span);
 
       validateAttributeSet(control, anchor,
-          new String[] { "name", "id", "value", "href", "onclick" }, formatter);
+          new String[] { "name", "id", "value", "href", "onclick" });
 
       validateAttributeSet(controlSpan, span,
-          new String[] { "name", "id", "value", "href", "onclick" }, formatter);
+          new String[] { "name", "id", "value", "href", "onclick" });
 
-      handleTestStatus(messages);
     }
 
   } // END clinkRenderPassthroughTest
 
-  protected void validateAttributeSet(TreeMap<String, String> control,
-    HtmlElement underTest, String[] ignoredAttributes, Formatter formatter) {
+  private void validateAttributeSet(TreeMap<String, String> control,
+    HtmlElement underTest, String[] ignoredAttributes) {
 
     Arrays.sort(ignoredAttributes);
     TreeMap<String, String> fromPage = new TreeMap<String, String>();
@@ -308,20 +294,10 @@ public class CommandLinkTestsIT {
       if (Arrays.binarySearch(ignoredAttributes, key) > -1) {
         continue;
       }
-      // fromPage.put(key, entry.getValue());
       fromPage.put(key, domEntry.getValue());
     }
 
-    if (!control.equals(fromPage)) {
-      formatter.format("%n Unexpected result when validating "
-          + "passthrough attributes received for the rendered "
-          + "'%s' in the response.%n", underTest.getTagName());
-      formatter.format("%nExpected attribute key/value pairs:%n%s",
-          control.toString());
-      formatter.format(
-          "%nAttribute key/value pairs from the " + "response:%n%s",
-          fromPage.toString());
-    }
+    assertEquals(control, fromPage);
 
   } // END validateAttributeSet
 
