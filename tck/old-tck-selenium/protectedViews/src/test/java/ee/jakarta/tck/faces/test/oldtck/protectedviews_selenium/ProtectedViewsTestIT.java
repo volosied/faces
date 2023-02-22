@@ -74,9 +74,7 @@ public class ProtectedViewsTestIT extends BaseITNG {
     WebElement anchor = page.findElement(By.id("form1:linkOne"));
 
     anchor.click();
-
     page.wait(3000);
-    
     assertEquals(expected, page.findElement(By.id("messOne")).getText());
 
   } 
