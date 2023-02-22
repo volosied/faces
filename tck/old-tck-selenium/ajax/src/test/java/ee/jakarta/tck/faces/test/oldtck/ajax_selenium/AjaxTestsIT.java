@@ -20,6 +20,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
+import static org.openqa.selenium.Keys.TAB;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -29,60 +31,50 @@ import ee.jakarta.tck.faces.test.util.selenium.ExtendedTextInput;
 import ee.jakarta.tck.faces.test.util.selenium.WebPage;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
 public class AjaxTestsIT extends BaseITNG {
 
     @Test
     public void ajaxTagWrappingTest() throws Exception {
-      HtmlPage page = webClient.getPage(webUrl + "/faces/tagwrapper/ajaxTagWrap.xhtml");
-
-      System.out.println(page.asXml());
+      WebPage page = getPage("/faces/tagwrapper/ajaxTagWrap.xhtml");
 
       // First we'll check the first page was output correctly
-      HtmlSpan span1 = (HtmlSpan) page.getElementById("out1");
-      assertNotNull(span1);
-      assertEquals("0", span1.asNormalizedText());
+      WebElement span1 = page.findElement(By.id("out1"));
+      assertEquals("0", span1.getText());
 
-      HtmlSpan span2 = (HtmlSpan) page.getElementById("checkedvalue");
-      assertNotNull(span2);
-      assertEquals("false", span2.asNormalizedText());
+      WebElement span2 = page.findElement(By.id("checkedvalue"));
+      assertEquals("false", span2.getText());
 
-      HtmlSpan span3 = (HtmlSpan) page.getElementById("outtext");
-      assertNotNull(span3);
-      assertEquals("", span3.asNormalizedText());
+      WebElement span3 = page.findElement(By.id("outtext"));
+      assertEquals("", span3.getText());
   
       // Submit the ajax request
-      HtmlInput button1 = (HtmlInput) page.getElementById("button1");
+      WebElement button1 = page.findElement(By.id("button1"));
       assertNotNull(button1);
-      page = button1.click();
+      button1.click();
   
-      webClient.waitForBackgroundJavaScript(3000);
+      page.waitReqJs();
 
-      // Check that the ajax request succeeds - eventually.
-      span1 = (HtmlSpan) page.getElementById("out1");
-      assertEquals("1",span1.asNormalizedText());
+      // Check that the ajax request succeeds
+      span1 = page.findElement(By.id("out1"));
+      assertEquals("1", span1.getText());
   
-      // // Check on the text field
-      HtmlInput intext = (HtmlInput) page.getElementById("intext");
-      assertNotNull(intext);
-      intext.focus();
-      intext.type("test");
-      intext.blur();
-      webClient.waitForBackgroundJavaScript(3000);
-
-      span3 = (HtmlSpan) page.getElementById("outtext");
-      assertNotNull(span3);
-      assertEquals("test", span3.asNormalizedText());
+      // Check on the text field
+      WebElement intext = page.findElement(By.id("intext"));
+      System.out.println(intext);
+      intext.sendKeys("test");
+      intext.sendKeys(TAB); // click out of intext to force ajax call
+      page.waitReqJs();
+      assertTrue(page.findElement(By.id("outtext")).getText().equals("test"));
   
       // Check the checkbox
-      HtmlInput checkbox = (HtmlInput) page.getElementById("checkbox");
-      assertNotNull(checkbox);
-      page = (HtmlPage) checkbox.setChecked(true);
-      checkbox = (HtmlInput) page.getElementById("checkbox");
-      assertTrue(checkbox.isChecked());
-
-      // Check for "true" in outtext?
+      WebElement checkbox = page.findElement(By.id("checkbox"));
+      checkbox.click();
+      page.waitReqJs();
+      span2 = page.findElement(By.id("checkedvalue"));
+      assertEquals("true", span2.getText());
   
     }// End ajaxAllKeywordTest
 
@@ -100,9 +92,9 @@ public class AjaxTestsIT extends BaseITNG {
     String EXPECTED = "testtext";
 
     List<String> urls = new ArrayList<String>();
-    urls.add(webUrl + "/faces/keyword/ajaxAllKeyword1.xhtml");
-    urls.add(webUrl + "/faces/keyword/ajaxAllKeyword2.xhtml");
-    urls.add(webUrl + "/faces/keyword/ajaxAllKeyword3.xhtml");
+    urls.add("/faces/keyword/ajaxAllKeyword1.xhtml");
+    urls.add("/faces/keyword/ajaxAllKeyword2.xhtml");
+    urls.add("/faces/keyword/ajaxAllKeyword3.xhtml");
 
     String buttonId = "form:allKeyword";
     String spanId = "form:out";
@@ -125,9 +117,9 @@ public class AjaxTestsIT extends BaseITNG {
     String EXPECTED = "testtext";
 
     List<String> urls = new ArrayList<String>();
-    urls.add(webUrl + "/faces/keyword/ajaxThisKeyword1.xhtml");
-    urls.add(webUrl + "/faces/keyword/ajaxThisKeyword2.xhtml");
-    urls.add(webUrl + "/faces/keyword/ajaxThisKeyword3.xhtml");
+    urls.add("/faces/keyword/ajaxThisKeyword1.xhtml");
+    urls.add("/faces/keyword/ajaxThisKeyword2.xhtml");
+    urls.add("/faces/keyword/ajaxThisKeyword3.xhtml");
 
     String buttonId = "form:thisKeyword";
     String spanId = "form:out";
@@ -143,14 +135,15 @@ public class AjaxTestsIT extends BaseITNG {
    * 
    * @since 2.0
    */
+  @Test
   public void ajaxFormKeywordTest() throws Exception {
 
     String EXPECTED = "testtext";
 
     List<String> urls = new ArrayList<String>();
-    urls.add(webUrl + "/faces/keyword/ajaxFormKeyword1.xhtml");
-    urls.add(webUrl + "/faces/keyword/ajaxFormKeyword2.xhtml");
-    urls.add(webUrl + "/faces/keyword/ajaxFormKeyword3.xhtml");
+    urls.add("/faces/keyword/ajaxFormKeyword1.xhtml");
+    urls.add("/faces/keyword/ajaxFormKeyword2.xhtml");
+    urls.add("/faces/keyword/ajaxFormKeyword3.xhtml");
 
     String buttonId = "form:formKeyword";
     String spanId = "form:out";
@@ -158,7 +151,7 @@ public class AjaxTestsIT extends BaseITNG {
     this.validateKeyword(urls, buttonId, spanId, EXPECTED);
   } // End ajaxThisKeywordTest
 
-  /**
+   /**
    * @testName: ajaxNoneKeywordTest
    * @assertion_ids: PENDING
    * @test_Strategy: Unsure the keyword 'none' works correctly with the f:ajax
@@ -166,14 +159,15 @@ public class AjaxTestsIT extends BaseITNG {
    * 
    * @since 2.0
    */
+  @Test
   public void ajaxNoneKeywordTest() throws Exception {
 
     String EXPECTED = "testtext";
 
     List<String> urls = new ArrayList<String>();
-    urls.add(webUrl + "/faces/keyword/ajaxNoneKeyword1.xhtml");
-    urls.add(webUrl + "/faces/keyword/ajaxNoneKeyword2.xhtml");
-    urls.add(webUrl + "/faces/keyword/ajaxNoneKeyword3.xhtml");
+    urls.add("/faces/keyword/ajaxNoneKeyword1.xhtml");
+    urls.add("/faces/keyword/ajaxNoneKeyword2.xhtml");
+    urls.add("/faces/keyword/ajaxNoneKeyword3.xhtml");
 
     String buttonId = "form:noneKeyword";
     String spanId = "form:out";
@@ -194,14 +188,13 @@ public class AjaxTestsIT extends BaseITNG {
   @Test
   public void ajaxPDLResourceTest() throws Exception {
 
-    HtmlPage page = webClient.getPage( webUrl + "/faces/jsresource/pdlApproach.xhtml");
-    HtmlScript script = (HtmlScript) page.getElementsByTagName("script").get(0);
-    assertNotNull(script);
+    WebPage page = getPage("/faces/jsresource/pdlApproach.xhtml");
+    WebElement script = page.findElement(By.tagName("script"));
 
-    // Test by Resource name.
-    assertTrue(script.getSrcAttribute().contains("faces.js"));
-    // Test by Resource Library name.
-    assertTrue(script.getSrcAttribute().contains("jakarta.faces"));
+    // Verify Resource name.
+    assertTrue(script.getDomAttribute​("src").contains("faces.js"));
+    // Verify Resource Library name.
+    assertTrue(script.getDomAttribute​("src").contains("jakarta.faces"));
 
   }// End ajaxPDLResourceTest
 
@@ -211,24 +204,23 @@ public class AjaxTestsIT extends BaseITNG {
       String spanId, String expectedValue) throws Exception {
 
       for (String url : urls) {
-        HtmlPage page = webClient.getPage(url);
-        HtmlSpan output = (HtmlSpan) page.getElementById(spanId);
-        assertNotNull(output);
+        WebPage page = getPage(url);
+        // System.out.println("going to url " + url);
+        // System.out.println("page " + page.getPageSource());
+        WebElement output = page.findElement(By.id(spanId));
 
         // First we'll check the first page was output correctly
-        assertEquals(expectedValue, output.asNormalizedText());
+        assertEquals(expectedValue, output.getText());
 
         // Submit the ajax request
-        HtmlSubmitInput button = (HtmlSubmitInput) page.getElementById(buttonId);
-        page = button.click();
-
-        webClient.waitForBackgroundJavaScript(3000);
+        WebElement button = page.findElement(By.id(buttonId));
+        button.click();
+        page.waitReqJs();
 
         // Check that the ajax request succeeds - if the page is rewritten,
         // this will be the same
-        output = (HtmlSpan) page.getElementById(spanId);
-        assertNotNull(output);
-        assertEquals(expectedValue, output.asNormalizedText());
+        output = page.findElement(By.id(spanId));
+        assertEquals(expectedValue, output.getText());
       }
   }
 
