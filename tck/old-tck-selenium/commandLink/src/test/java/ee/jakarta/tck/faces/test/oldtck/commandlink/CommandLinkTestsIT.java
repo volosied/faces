@@ -448,4 +448,33 @@ public class AjaxTestsIT {
 
   } // END clinkRenderPassthroughTest
 
+  protected void validateAttributeSet(TreeMap<String, String> control,
+    HtmlElement underTest, String[] ignoredAttributes, Formatter formatter) {
+
+    Arrays.sort(ignoredAttributes);
+    TreeMap<String, String> fromPage = new TreeMap<String, String>();
+    for (Iterator i = underTest.getAttributesMap().values().iterator(); i
+        .hasNext();) {
+      DomAttr domEntry = (DomAttr) i.next();
+      String key = domEntry.getName();
+      if (Arrays.binarySearch(ignoredAttributes, key) > -1) {
+        continue;
+      }
+      // fromPage.put(key, entry.getValue());
+      fromPage.put(key, domEntry.getValue());
+    }
+
+    if (!control.equals(fromPage)) {
+      formatter.format("%n Unexpected result when validating "
+          + "passthrough attributes received for the rendered "
+          + "'%s' in the response.%n", underTest.getTagName());
+      formatter.format("%nExpected attribute key/value pairs:%n%s",
+          control.toString());
+      formatter.format(
+          "%nAttribute key/value pairs from the " + "response:%n%s",
+          fromPage.toString());
+    }
+
+  } // END validateAttributeSet
+
 }
