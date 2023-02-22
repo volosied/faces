@@ -45,6 +45,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
+import com.gargoylesoftware.htmlunit.html.HtmlScript;
 
 import jakarta.faces.component.html.HtmlInputText;
 
@@ -222,48 +223,31 @@ public class AjaxTestsIT {
     this.validateKeyword(urls, buttonId, spanId, EXPECTED);
   } // End ajaxThisKeywordTest
 
-  // /**
-  //  * @testName: ajaxPDLResourceTest
-  //  * 
-  //  * @assertion_ids: JSF:SPEC:225; JSF:SPEC:226; JSF:SPEC:227
-  //  * 
-  //  * @test_Strategy: Validate that the jsf.js Resource is available via the
-  //  *                 "Page Declaration Language Approach".
-  //  * 
-  //  * @since 2.0
-  //  */
-  // public void ajaxPDLResourceTest() throws Fault {
+  /**
+   * @testName: ajaxPDLResourceTest
+   * 
+   * @assertion_ids: JSF:SPEC:225; JSF:SPEC:226; JSF:SPEC:227
+   * 
+   * @test_Strategy: Validate that the jsf.js Resource is available via the
+   *                 "Page Declaration Language Approach".
+   * 
+   * @since 2.0
+   */
+  @Test
+  public void ajaxPDLResourceTest() throws Exception {
 
-  //   this.validateScript(getPage(CONTEXT_ROOT + "/faces/pdlApproach.xhtml"));
+    HtmlPage page = webClient.getPage( webUrl + "/faces/jsresource/pdlApproach.xhtml");
+    HtmlScript script = (HtmlScript) page.getElementsByTagName("script").get(0);
+    assertNotNull(script);
 
-  // }// End ajaxPDLResourceTest
+    // Test by Resource name.
+    assertTrue(script.getSrcAttribute().contains("faces.js"));
+    // Test by Resource Library name.
+    assertTrue(script.getSrcAttribute().contains("jakarta.faces"));
 
-  // private void validateScript(HtmlPage page) throws Fault {
-  //   StringBuilder messages = new StringBuilder(128);
-  //   Formatter formatter = new Formatter(messages);
-  //   String script = "script";
 
-  //   // Test by Resource name.
-  //   HtmlScript resn = (HtmlScript) getElementOfTypeIncludingSrc(page, script,
-  //       RES_NAME);
 
-  //   if (resn == null) {
-  //     formatter.format("Unexpected Test Result For %s Tag! %n"
-  //         + "Expected Src Attribute to contain: %s %n", script, RES_NAME);
-  //   }
-
-  //   // Test by Resource Library name.
-  //   HtmlScript resl = (HtmlScript) getElementOfTypeIncludingSrc(page, script,
-  //       LIB_NAME);
-
-  //   if (resl == null) {
-  //     formatter.format("Unexpected Test Result For %s Tag! %n"
-  //         + "Expected Src Attribute to contain: %s %n", script, LIB_NAME);
-  //   }
-
-  //   handleTestStatus(messages);
-  //   formatter.close();
-  // }
+  }// End ajaxPDLResourceTest
 
   private void validateKeyword(List<String> urls, String buttonId,
     String spanId, String expectedValue) throws Exception {
