@@ -50,7 +50,6 @@ public class AjaxTagValuesBean implements Serializable {
   }
 
   public void setText(String text) {
-    System.out.println("setText " + text);
     this.text = text;
   }
 

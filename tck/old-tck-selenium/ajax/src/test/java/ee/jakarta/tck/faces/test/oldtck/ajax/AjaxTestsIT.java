@@ -18,15 +18,14 @@ package ee.jakarta.tck.faces.test.oldtck.ajax;
 
 import static java.lang.System.getProperty;
 import static org.jboss.shrinkwrap.api.ShrinkWrap.create;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.net.URL;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -39,13 +38,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 import com.gargoylesoftware.htmlunit.html.HtmlScript;
+import com.gargoylesoftware.htmlunit.html.HtmlSpan;
+import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 
 @RunWith(Arquillian.class)
 public class AjaxTestsIT {
@@ -71,13 +68,9 @@ public class AjaxTestsIT {
         webClient.close();
     }
 
-    // validateSpanTag - HtmlPage page, String spanId, String expectedValue
-
     @Test
     public void ajaxTagWrappingTest() throws Exception {
       HtmlPage page = webClient.getPage(webUrl + "/faces/tagwrapper/ajaxTagWrap.xhtml");
-
-      System.out.println(page.asXml());
 
       // First we'll check the first page was output correctly
       HtmlSpan span1 = (HtmlSpan) page.getElementById("out1");
@@ -122,7 +115,7 @@ public class AjaxTestsIT {
       checkbox = (HtmlInput) page.getElementById("checkbox");
       assertTrue(checkbox.isChecked());
 
-      // Check for "true" in outtext?
+      // Check for "true" in outtext? Not originally tested (maybe due to HTMLUnit issues?). Will add to selenium run.
   
     }// End ajaxAllKeywordTest
 

@@ -16,29 +16,26 @@
 
 package ee.jakarta.tck.faces.test.oldtck.ajax_selenium;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertTrue;
 import static org.openqa.selenium.Keys.TAB;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
-import ee.jakarta.tck.faces.test.util.selenium.BaseITNG;
-import ee.jakarta.tck.faces.test.util.selenium.ExtendedTextInput;
-import ee.jakarta.tck.faces.test.util.selenium.WebPage;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+
+import ee.jakarta.tck.faces.test.util.selenium.BaseITNG;
+import ee.jakarta.tck.faces.test.util.selenium.WebPage;
 
 public class AjaxTestsIT extends BaseITNG {
 
     @Test
     public void ajaxTagWrappingTest() throws Exception {
-      WebPage page = getPage("/faces/tagwrapper/ajaxTagWrap.xhtml");
+      WebPage page = getPage("faces/tagwrapper/ajaxTagWrap.xhtml");
 
       // First we'll check the first page was output correctly
       WebElement span1 = page.findElement(By.id("out1"));
@@ -63,9 +60,8 @@ public class AjaxTestsIT extends BaseITNG {
   
       // Check on the text field
       WebElement intext = page.findElement(By.id("intext"));
-      System.out.println(intext);
       intext.sendKeys("test");
-      intext.sendKeys(TAB); // click out of intext to force ajax call
+      intext.sendKeys(TAB); // click out of intext to force onchange event
       page.waitReqJs();
       assertTrue(page.findElement(By.id("outtext")).getText().equals("test"));
   
@@ -92,9 +88,9 @@ public class AjaxTestsIT extends BaseITNG {
     String EXPECTED = "testtext";
 
     List<String> urls = new ArrayList<String>();
-    urls.add("/faces/keyword/ajaxAllKeyword1.xhtml");
-    urls.add("/faces/keyword/ajaxAllKeyword2.xhtml");
-    urls.add("/faces/keyword/ajaxAllKeyword3.xhtml");
+    urls.add("faces/keyword/ajaxAllKeyword1.xhtml");
+    urls.add("faces/keyword/ajaxAllKeyword2.xhtml");
+    urls.add("faces/keyword/ajaxAllKeyword3.xhtml");
 
     String buttonId = "form:allKeyword";
     String spanId = "form:out";
@@ -117,9 +113,9 @@ public class AjaxTestsIT extends BaseITNG {
     String EXPECTED = "testtext";
 
     List<String> urls = new ArrayList<String>();
-    urls.add("/faces/keyword/ajaxThisKeyword1.xhtml");
-    urls.add("/faces/keyword/ajaxThisKeyword2.xhtml");
-    urls.add("/faces/keyword/ajaxThisKeyword3.xhtml");
+    urls.add("faces/keyword/ajaxThisKeyword1.xhtml");
+    urls.add("faces/keyword/ajaxThisKeyword2.xhtml");
+    urls.add("faces/keyword/ajaxThisKeyword3.xhtml");
 
     String buttonId = "form:thisKeyword";
     String spanId = "form:out";
@@ -141,9 +137,9 @@ public class AjaxTestsIT extends BaseITNG {
     String EXPECTED = "testtext";
 
     List<String> urls = new ArrayList<String>();
-    urls.add("/faces/keyword/ajaxFormKeyword1.xhtml");
-    urls.add("/faces/keyword/ajaxFormKeyword2.xhtml");
-    urls.add("/faces/keyword/ajaxFormKeyword3.xhtml");
+    urls.add("faces/keyword/ajaxFormKeyword1.xhtml");
+    urls.add("faces/keyword/ajaxFormKeyword2.xhtml");
+    urls.add("faces/keyword/ajaxFormKeyword3.xhtml");
 
     String buttonId = "form:formKeyword";
     String spanId = "form:out";
@@ -165,9 +161,9 @@ public class AjaxTestsIT extends BaseITNG {
     String EXPECTED = "testtext";
 
     List<String> urls = new ArrayList<String>();
-    urls.add("/faces/keyword/ajaxNoneKeyword1.xhtml");
-    urls.add("/faces/keyword/ajaxNoneKeyword2.xhtml");
-    urls.add("/faces/keyword/ajaxNoneKeyword3.xhtml");
+    urls.add("faces/keyword/ajaxNoneKeyword1.xhtml");
+    urls.add("faces/keyword/ajaxNoneKeyword2.xhtml");
+    urls.add("faces/keyword/ajaxNoneKeyword3.xhtml");
 
     String buttonId = "form:noneKeyword";
     String spanId = "form:out";
@@ -188,7 +184,7 @@ public class AjaxTestsIT extends BaseITNG {
   @Test
   public void ajaxPDLResourceTest() throws Exception {
 
-    WebPage page = getPage("/faces/jsresource/pdlApproach.xhtml");
+    WebPage page = getPage("faces/jsresource/pdlApproach.xhtml");
     WebElement script = page.findElement(By.tagName("script"));
 
     // Verify Resource name.
@@ -205,8 +201,7 @@ public class AjaxTestsIT extends BaseITNG {
 
       for (String url : urls) {
         WebPage page = getPage(url);
-        // System.out.println("going to url " + url);
-        // System.out.println("page " + page.getPageSource());
+
         WebElement output = page.findElement(By.id(spanId));
 
         // First we'll check the first page was output correctly

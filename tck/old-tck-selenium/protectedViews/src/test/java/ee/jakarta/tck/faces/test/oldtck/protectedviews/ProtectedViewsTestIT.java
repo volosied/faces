@@ -18,10 +18,10 @@ package ee.jakarta.tck.faces.test.oldtck.protectedviews;
 
 import static java.lang.System.getProperty;
 import static org.jboss.shrinkwrap.api.ShrinkWrap.create;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.net.URL;

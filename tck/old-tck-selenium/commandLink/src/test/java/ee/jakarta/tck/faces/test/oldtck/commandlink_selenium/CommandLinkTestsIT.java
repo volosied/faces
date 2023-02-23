@@ -16,26 +16,21 @@
 
 package ee.jakarta.tck.faces.test.oldtck.commandlink_selenium;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
 
-import java.util.Arrays;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.TreeMap;
 import java.util.Map;
+import java.util.TreeMap;
 
-import ee.jakarta.tck.faces.test.util.selenium.BaseITNG;
-import ee.jakarta.tck.faces.test.util.selenium.ExtendedTextInput;
-import ee.jakarta.tck.faces.test.util.selenium.WebPage;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
+import ee.jakarta.tck.faces.test.util.selenium.BaseITNG;
+import ee.jakarta.tck.faces.test.util.selenium.WebPage;
 
 public class CommandLinkTestsIT extends BaseITNG {
 

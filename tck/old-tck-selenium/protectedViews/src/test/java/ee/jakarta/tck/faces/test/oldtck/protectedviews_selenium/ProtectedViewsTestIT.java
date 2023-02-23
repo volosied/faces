@@ -16,17 +16,15 @@
 
 package ee.jakarta.tck.faces.test.oldtck.protectedviews_selenium;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
-import ee.jakarta.tck.faces.test.util.selenium.BaseITNG;
-import ee.jakarta.tck.faces.test.util.selenium.ExtendedTextInput;
-import ee.jakarta.tck.faces.test.util.selenium.WebPage;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
+import ee.jakarta.tck.faces.test.util.selenium.BaseITNG;
+import ee.jakarta.tck.faces.test.util.selenium.WebPage;
 
 public class ProtectedViewsTestIT extends BaseITNG {
 
@@ -72,7 +70,7 @@ public class ProtectedViewsTestIT extends BaseITNG {
     WebElement anchor = page.findElement(By.id("form1:linkOne"));
 
     anchor.click();
-    page.wait(3000);
+    page.waitReqJs();
     assertEquals(expected, page.findElement(By.id("messOne")).getText());
 
   } 
