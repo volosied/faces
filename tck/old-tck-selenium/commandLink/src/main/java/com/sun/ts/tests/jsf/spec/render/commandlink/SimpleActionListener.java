@@ -31,10 +31,13 @@
  import jakarta.faces.event.ActionListener;
  import jakarta.servlet.http.HttpServletResponse;
  
- @jakarta.inject.Named("ActionListener") @jakarta.enterprise.context.SessionScoped
+ @jakarta.inject.Named("ActionListener") @jakarta.enterprise.context.RequestScoped
  public class SimpleActionListener implements ActionListener, Serializable {
  
    private static final long serialVersionUID = -2123380871083456327L;
+
+   /* Selenium doens't allow response header inspection, so the result is set here and displayed on the page */
+   private String result = "";
  
    /**
     * <p>
@@ -60,17 +63,30 @@
      String expectedId = requestParamMap.get("expectedId");
  
      if (expectedId == null) {
-       response.addHeader("actionEvent",
-           "Test error.  Can't find expected" + " component ID.");
+          // HTML Header Check
+          response.addHeader("actionEvent", "Test error.  Can't find expected" + " component ID.");
+          // Selenium Result ID Check
+          result = "FAILED. Can't find expected component ID";
      } else {
  
        if (!expectedId.equals(component.getId())) {
-         response.addHeader("actionEvent", "Expected component ID '" + expectedId
-             + "', received: '" + component.getId() + '\'');
+            // HTML Unit 
+            response.addHeader("actionEvent", "Expected component ID '" + expectedId
+              + "', received: '" + component.getId() + '\'');
+            // For Selenium  
+            result = "FAILED. " + "Expected component ID '" + expectedId
+             + "', received: '" + component.getId() + '\'';
        } else {
-         response.addHeader("actionEventOK", "PASSED");
+            //HTML Unit
+            response.addHeader("actionEventOK", "PASSED");
+            // Selenium
+            result = "PASSED";
        }
      }
    }
+
+    public String getResult(){
+        return result;
+    }
  }
  

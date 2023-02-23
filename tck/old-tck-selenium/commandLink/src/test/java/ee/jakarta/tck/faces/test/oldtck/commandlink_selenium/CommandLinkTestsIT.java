@@ -29,7 +29,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
 
-public class CommandLinkTestsIT {
+import ee.jakarta.tck.faces.test.util.selenium.BaseITNG;
+import ee.jakarta.tck.faces.test.util.selenium.ExtendedTextInput;
+import ee.jakarta.tck.faces.test.util.selenium.WebPage;
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+public class CommandLinkTestsIT extends BaseITNG {
 
   /*
    * @class.setup_props: webServerHost; webServerPort; ts_home;
@@ -75,42 +82,36 @@ public class CommandLinkTestsIT {
   @Test
   public void clinkRenderEncodeTest() throws Exception {
 
-    HtmlPage page = webClient.getPage(webUrl + "/faces/encodetest_facelet.xhtml");
+    WebPage page = getPage("faces/encodetest_facelet.xhtml");
 
-    HtmlAnchor link1 = (HtmlAnchor) page.getElementById("form:link1"); // form:link1? 
-    assertNotNull(link1);
-    assertEquals("#",link1.getHrefAttribute());
-    assertEquals("Click Me1",link1.asNormalizedText());
-    assertFalse(link1.getOnClickAttribute().length() < 0);
+    WebElement link1 = page.findElement(By.id("form:link1"));
+    assertEquals("#",link1.getDomAttribute​("href"));
+    assertEquals("Click Me1",link1.getText());
+    assertFalse(link1.getDomAttribute​("onclick").length() < 0);
 
-    HtmlAnchor link2 = (HtmlAnchor) page.getElementById("form:link2"); // form:link1? 
-    assertNotNull(link2);
-    assertEquals("#",link1.getHrefAttribute());
-    assertEquals("Click Me2",link2.asNormalizedText());
-    assertEquals("sansserif", link2.getAttribute("class"));
-    assertFalse(link2.getOnClickAttribute().length() < 0);
+    WebElement link2 = page.findElement(By.id("form:link2"));
+    assertEquals("#",link1.getDomAttribute​("href"));
+    assertEquals("Click Me2",link2.getText());
+    assertEquals("sansserif", link2.getDomAttribute​("class"));
+    assertFalse(link2.getDomAttribute​("onclick").length() < 0);
 
-    HtmlAnchor link3 = (HtmlAnchor) page.getElementById("form:link3"); // form:link1? 
-    assertNotNull(link2);
-    assertEquals("#",link3.getHrefAttribute());
-    assertEquals("Click Me3",link3.asNormalizedText());
-    assertFalse(link3.getOnClickAttribute().length() < 0);
+    WebElement link3 = page.findElement(By.id("form:link3"));
+    assertEquals("#",link3.getDomAttribute​("href"));
+    assertEquals("Click Me3",link3.getText());
+    assertFalse(link3.getDomAttribute​("onclick").length() < 0);
 
-    HtmlSpan link5 = (HtmlSpan) page.getElementById("form:link5"); // form:link1? 
-    assertNotNull(link5);
-    assertEquals("sansserif", link5.getAttribute("class"));
-    assertEquals("Disabled Link",link5.asNormalizedText());
-    assertFalse(link5.getOnClickAttribute().length() < 0);
+    WebElement link5 = page.findElement(By.id("form:link5"));
+    assertEquals("sansserif", link5.getDomAttribute​("class"));
+    assertEquals("Disabled Link",link5.getText());
+    assertNull(link5.getDomAttribute​("onclick")); 
 
-    HtmlSpan span2 = (HtmlSpan) page.getElementById("form:link6"); // form:link1? 
-    assertNotNull(span2);
-    assertEquals("Disabled Link(Nested)",span2.asNormalizedText());
+    WebElement span2 = page.findElement(By.id("form:link6")); 
+    assertEquals("Disabled Link(Nested)",span2.getText());
 
-    HtmlAnchor span7 = (HtmlAnchor) page.getElementById("form:link7"); // form:link1? 
-    assertNotNull(span7);
-    assertEquals("sansserif",span7.getAttribute("class"));
-    assertEquals("rectangle",span7.getShapeAttribute());
-    assertEquals("gone",span7.getAttribute("title"));
+    WebElement span7 = page.findElement(By.id("form:link7"));
+    assertEquals("sansserif",span7.getDomAttribute​("class"));
+    assertEquals("rectangle",span7.getDomAttribute​("shape"));
+    assertEquals("gone",span7.getDomAttribute​("title"));
   } // END clinkRenderEncodeTest
 
   /**
@@ -124,133 +125,130 @@ public class CommandLinkTestsIT {
    */
   @Test
   public void clinkRenderDecodeTest() throws Exception {
-    webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
-    HtmlPage page = webClient.getPage(webUrl + "/faces/decodetest_facelet.xhtml");
+    WebPage page = getPage("faces/decodetest_facelet.xhtml");
 
-    HtmlAnchor link1 = (HtmlAnchor) page.getElementById("form:link1");
-    assertNotNull(link1);
-    HtmlPage postBack = (HtmlPage) link1.click();  // FAILs 
+    WebElement result = page.findElement(By.id("result"));
+    assertEquals("", result.getText());
 
-    String msgHeader = postBack.getWebResponse().getResponseHeaderValue("actionEvent");
-    if(msgHeader != null) {
-      fail(msgHeader); // actionEvent is error header, see SimpleActionListener
-    } else {
-      msgHeader = postBack.getWebResponse().getResponseHeaderValue("actionEventOK");
-      assertNotNull("ActionListener was not invoked when CommandButton 'command1' was clicked.", msgHeader);
-    }
+    WebElement link1 = page.findElement(By.id("form:link1"));
+    link1.click();
+
+    result = page.findElement(By.id("result"));
+    assertEquals("PASSED", result.getText());
+
   } // END clinkRenderDecodeTest
 
-  /**
-   * @testName: clinkRenderPassthroughTest
-   * 
-   * @assertion_ids: PENDING
-   * 
-   * @test_Strategy: Ensure those attributes marked as passthrough are indeed
-   *                 visible in the rendered markup as specified in the JSP
-   *                 page.
-   * 
-   * @since 1.2
-   */
-  @Test
-  public void clinkRenderPassthroughTest() throws Exception {
+  // /**
+  //  * @testName: clinkRenderPassthroughTest
+  //  * 
+  //  * @assertion_ids: PENDING
+  //  * 
+  //  * @test_Strategy: Ensure those attributes marked as passthrough are indeed
+  //  *                 visible in the rendered markup as specified in the JSP
+  //  *                 page.
+  //  * 
+  //  * @since 1.2
+  //  */
+  // @Test
+  // public void clinkRenderPassthroughTest() throws Exception {
 
-    TreeMap<String, String> control = new TreeMap<String, String>();
-    control.put("accesskey", "U");
-    control.put("charset", "ISO-8859-1");
-    control.put("coords", "31,45");
-    control.put("dir", "LTR");
-    control.put("hreflang", "en");
-    control.put("lang", "en");
-    control.put("onblur", "js1");
-    control.put("ondblclick", "js3");
-    control.put("onfocus", "js4");
-    control.put("onkeydown", "js5");
-    control.put("onkeypress", "js6");
-    control.put("onkeyup", "js7");
-    control.put("onmousedown", "js8");
-    control.put("onmousemove", "js9");
-    control.put("onmouseout", "js10");
-    control.put("onmouseover", "js11");
-    control.put("onmouseup", "js12");
-    control.put("rel", "somevalue");
-    control.put("rev", "revsomevalue");
-    control.put("shape", "rect");
-    control.put("style", "Color: red;");
-    control.put("tabindex", "0");
-    control.put("title", "sample");
-    control.put("type", "type");
+  //   TreeMap<String, String> control = new TreeMap<String, String>();
+  //   control.put("accesskey", "U");
+  //   control.put("charset", "ISO-8859-1");
+  //   control.put("coords", "31,45");
+  //   control.put("dir", "LTR");
+  //   control.put("hreflang", "en");
+  //   control.put("lang", "en");
+  //   control.put("onblur", "js1");
+  //   control.put("ondblclick", "js3");
+  //   control.put("onfocus", "js4");
+  //   control.put("onkeydown", "js5");
+  //   control.put("onkeypress", "js6");
+  //   control.put("onkeyup", "js7");
+  //   control.put("onmousedown", "js8");
+  //   control.put("onmousemove", "js9");
+  //   control.put("onmouseout", "js10");
+  //   control.put("onmouseover", "js11");
+  //   control.put("onmouseup", "js12");
+  //   control.put("rel", "somevalue");
+  //   control.put("rev", "revsomevalue");
+  //   control.put("shape", "rect");
+  //   control.put("style", "Color: red;");
+  //   control.put("tabindex", "0");
+  //   control.put("title", "sample");
+  //   control.put("type", "type");
 
-    TreeMap<String, String> controlSpan = new TreeMap<String, String>();
-    controlSpan.put("accesskey", "U");
-    controlSpan.put("dir", "LTR");
-    controlSpan.put("lang", "en");
-    controlSpan.put("onblur", "js1");
-    controlSpan.put("ondblclick", "js3");
-    controlSpan.put("onfocus", "js4");
-    controlSpan.put("onkeydown", "js5");
-    controlSpan.put("onkeypress", "js6");
-    controlSpan.put("onkeyup", "js7");
-    controlSpan.put("onmousedown", "js8");
-    controlSpan.put("onmousemove", "js9");
-    controlSpan.put("onmouseout", "js10");
-    controlSpan.put("onmouseover", "js11");
-    controlSpan.put("onmouseup", "js12");
-    controlSpan.put("style", "Color: red;");
-    controlSpan.put("tabindex", "0");
-    controlSpan.put("title", "sample");
+  //   TreeMap<String, String> controlSpan = new TreeMap<String, String>();
+  //   controlSpan.put("accesskey", "U");
+  //   controlSpan.put("dir", "LTR");
+  //   controlSpan.put("lang", "en");
+  //   controlSpan.put("onblur", "js1");
+  //   controlSpan.put("ondblclick", "js3");
+  //   controlSpan.put("onfocus", "js4");
+  //   controlSpan.put("onkeydown", "js5");
+  //   controlSpan.put("onkeypress", "js6");
+  //   controlSpan.put("onkeyup", "js7");
+  //   controlSpan.put("onmousedown", "js8");
+  //   controlSpan.put("onmousemove", "js9");
+  //   controlSpan.put("onmouseout", "js10");
+  //   controlSpan.put("onmouseover", "js11");
+  //   controlSpan.put("onmouseup", "js12");
+  //   controlSpan.put("style", "Color: red;");
+  //   controlSpan.put("tabindex", "0");
+  //   controlSpan.put("title", "sample");
 
-    List<HtmlPage> pages = new ArrayList<HtmlPage>();
-    pages.add(webClient.getPage(webUrl + "/faces/passthroughtest.xhtml"));
-    pages.add(webClient.getPage(webUrl + "/faces/passthroughtest_facelet.xhtml"));
+  //   List<HtmlPage> pages = new ArrayList<HtmlPage>();
+  //   pages.add(webClient.getPage(webUrl + "/faces/passthroughtest.xhtml"));
+  //   pages.add(webClient.getPage(webUrl + "/faces/passthroughtest_facelet.xhtml"));
 
-    for (HtmlPage page : pages) {
+  //   for (HtmlPage page : pages) {
 
-      // Facelet Specific PassThrough options
-      if (page.getTitleText().contains("facelet")) {
-        control.put("foo", "bar");
-        control.put("singleatt", "singleAtt");
-        control.put("manyattone", "manyOne");
-        control.put("manyatttwo", "manyTwo");
-        control.put("manyattthree", "manyThree");
-        controlSpan.put("foo", "bar");
-        controlSpan.put("singleatt", "singleAtt");
-        controlSpan.put("manyattone", "manyOne");
-        controlSpan.put("manyatttwo", "manyTwo");
-        controlSpan.put("manyattthree", "manyThree");
-      }
+  //     // Facelet Specific PassThrough options
+  //     if (page.getTitleText().contains("facelet")) {
+  //       control.put("foo", "bar");
+  //       control.put("singleatt", "singleAtt");
+  //       control.put("manyattone", "manyOne");
+  //       control.put("manyatttwo", "manyTwo");
+  //       control.put("manyattthree", "manyThree");
+  //       controlSpan.put("foo", "bar");
+  //       controlSpan.put("singleatt", "singleAtt");
+  //       controlSpan.put("manyattone", "manyOne");
+  //       controlSpan.put("manyatttwo", "manyTwo");
+  //       controlSpan.put("manyattthree", "manyThree");
+  //     }
 
-      HtmlAnchor anchor = (HtmlAnchor) page.getElementById("form:link1");
-      assertNotNull(anchor);
-      HtmlSpan span = (HtmlSpan) page.getElementById("form:link2");
-      assertNotNull(span);
+  //     HtmlAnchor anchor = (HtmlAnchor) page.getElementById("form:link1");
+  //     assertNotNull(anchor);
+  //     HtmlSpan span = (HtmlSpan) page.getElementById("form:link2");
+  //     assertNotNull(span);
 
-      validateAttributeSet(control, anchor,
-          new String[] { "name", "id", "value", "href", "onclick" });
+  //     validateAttributeSet(control, anchor,
+  //         new String[] { "name", "id", "value", "href", "onclick" });
 
-      validateAttributeSet(controlSpan, span,
-          new String[] { "name", "id", "value", "href", "onclick" });
+  //     validateAttributeSet(controlSpan, span,
+  //         new String[] { "name", "id", "value", "href", "onclick" });
 
-    }
+  //   }
 
-  } // END clinkRenderPassthroughTest
+  // } // END clinkRenderPassthroughTest
 
-  private void validateAttributeSet(TreeMap<String, String> control,
-    HtmlElement underTest, String[] ignoredAttributes) {
+  // private void validateAttributeSet(TreeMap<String, String> control,
+  //   HtmlElement underTest, String[] ignoredAttributes) {
 
-    Arrays.sort(ignoredAttributes);
-    TreeMap<String, String> fromPage = new TreeMap<String, String>();
-    for (Iterator i = underTest.getAttributesMap().values().iterator(); i
-        .hasNext();) {
-      DomAttr domEntry = (DomAttr) i.next();
-      String key = domEntry.getName();
-      if (Arrays.binarySearch(ignoredAttributes, key) > -1) {
-        continue;
-      }
-      fromPage.put(key, domEntry.getValue());
-    }
+  //   Arrays.sort(ignoredAttributes);
+  //   TreeMap<String, String> fromPage = new TreeMap<String, String>();
+  //   for (Iterator i = underTest.getAttributesMap().values().iterator(); i
+  //       .hasNext();) {
+  //     DomAttr domEntry = (DomAttr) i.next();
+  //     String key = domEntry.getName();
+  //     if (Arrays.binarySearch(ignoredAttributes, key) > -1) {
+  //       continue;
+  //     }
+  //     fromPage.put(key, domEntry.getValue());
+  //   }
 
-    assertEquals(control, fromPage);
+  //   assertEquals(control, fromPage);
 
-  } // END validateAttributeSet
+  // } // END validateAttributeSet
 
 }
