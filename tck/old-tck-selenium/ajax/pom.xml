@@ -26,12 +26,12 @@
         <version>4.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>protectedViews</artifactId>
+    <artifactId>ajax</artifactId>
     <packaging>war</packaging>
 
-    <name>Jakarta Faces TCK ${project.version} - Test - Faces 2.2 - protectedViews</name>
+    <name>Jakarta Faces TCK ${project.version} - Test - Old TCK Port - Ajax</name>
 
     <build>
-        <finalName>old-tck-protectedViews</finalName>
+        <finalName>old-tck-ajax</finalName>
     </build>
 </project>

@@ -38,11 +38,7 @@ import org.junit.runner.RunWith;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-
-import jakarta.faces.component.html.HtmlInputText;
 
 @RunWith(Arquillian.class)
 public class ProtectedViewsTestIT {

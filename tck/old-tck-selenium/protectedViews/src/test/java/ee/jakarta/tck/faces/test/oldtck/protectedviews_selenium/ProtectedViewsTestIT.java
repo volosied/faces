@@ -28,8 +28,6 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import jakarta.faces.component.html.HtmlInputText;
-
 public class ProtectedViewsTestIT extends BaseITNG {
 
   /**

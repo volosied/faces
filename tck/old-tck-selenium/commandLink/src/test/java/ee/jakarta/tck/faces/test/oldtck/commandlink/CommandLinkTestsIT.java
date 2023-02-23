@@ -53,8 +53,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 import com.gargoylesoftware.htmlunit.html.HtmlScript;
 
-import jakarta.faces.component.html.HtmlInputText;
-
 @RunWith(Arquillian.class)
 public class CommandLinkTestsIT {
 
