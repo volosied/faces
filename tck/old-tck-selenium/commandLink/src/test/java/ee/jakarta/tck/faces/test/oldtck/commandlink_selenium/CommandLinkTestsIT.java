@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.Map;
 
 import ee.jakarta.tck.faces.test.util.selenium.BaseITNG;
 import ee.jakarta.tck.faces.test.util.selenium.ExtendedTextInput;
@@ -138,117 +139,99 @@ public class CommandLinkTestsIT extends BaseITNG {
 
   } // END clinkRenderDecodeTest
 
-  // /**
-  //  * @testName: clinkRenderPassthroughTest
-  //  * 
-  //  * @assertion_ids: PENDING
-  //  * 
-  //  * @test_Strategy: Ensure those attributes marked as passthrough are indeed
-  //  *                 visible in the rendered markup as specified in the JSP
-  //  *                 page.
-  //  * 
-  //  * @since 1.2
-  //  */
-  // @Test
-  // public void clinkRenderPassthroughTest() throws Exception {
+  /**
+   * @testName: clinkRenderPassthroughTest
+   * 
+   * @assertion_ids: PENDING
+   * 
+   * @test_Strategy: Ensure those attributes marked as passthrough are indeed
+   *                 visible in the rendered markup as specified in the JSP
+   *                 page.
+   * 
+   * @since 1.2
+   */
+  @Test
+  public void clinkRenderPassthroughTest() throws Exception {
 
-  //   TreeMap<String, String> control = new TreeMap<String, String>();
-  //   control.put("accesskey", "U");
-  //   control.put("charset", "ISO-8859-1");
-  //   control.put("coords", "31,45");
-  //   control.put("dir", "LTR");
-  //   control.put("hreflang", "en");
-  //   control.put("lang", "en");
-  //   control.put("onblur", "js1");
-  //   control.put("ondblclick", "js3");
-  //   control.put("onfocus", "js4");
-  //   control.put("onkeydown", "js5");
-  //   control.put("onkeypress", "js6");
-  //   control.put("onkeyup", "js7");
-  //   control.put("onmousedown", "js8");
-  //   control.put("onmousemove", "js9");
-  //   control.put("onmouseout", "js10");
-  //   control.put("onmouseover", "js11");
-  //   control.put("onmouseup", "js12");
-  //   control.put("rel", "somevalue");
-  //   control.put("rev", "revsomevalue");
-  //   control.put("shape", "rect");
-  //   control.put("style", "Color: red;");
-  //   control.put("tabindex", "0");
-  //   control.put("title", "sample");
-  //   control.put("type", "type");
+    TreeMap<String, String> control = new TreeMap<String, String>();
+    control.put("accesskey", "U");
+    control.put("charset", "ISO-8859-1");
+    control.put("coords", "31,45");
+    control.put("dir", "LTR");
+    control.put("hreflang", "en");
+    control.put("lang", "en");
+    control.put("onblur", "js1");
+    control.put("ondblclick", "js3");
+    control.put("onfocus", "js4");
+    control.put("onkeydown", "js5");
+    control.put("onkeypress", "js6");
+    control.put("onkeyup", "js7");
+    control.put("onmousedown", "js8");
+    control.put("onmousemove", "js9");
+    control.put("onmouseout", "js10");
+    control.put("onmouseover", "js11");
+    control.put("onmouseup", "js12");
+    control.put("rel", "somevalue");
+    control.put("rev", "revsomevalue");
+    control.put("shape", "rect");
+    control.put("style", "Color: red;");
+    control.put("tabindex", "0");
+    control.put("title", "sample");
+    control.put("type", "type");
 
-  //   TreeMap<String, String> controlSpan = new TreeMap<String, String>();
-  //   controlSpan.put("accesskey", "U");
-  //   controlSpan.put("dir", "LTR");
-  //   controlSpan.put("lang", "en");
-  //   controlSpan.put("onblur", "js1");
-  //   controlSpan.put("ondblclick", "js3");
-  //   controlSpan.put("onfocus", "js4");
-  //   controlSpan.put("onkeydown", "js5");
-  //   controlSpan.put("onkeypress", "js6");
-  //   controlSpan.put("onkeyup", "js7");
-  //   controlSpan.put("onmousedown", "js8");
-  //   controlSpan.put("onmousemove", "js9");
-  //   controlSpan.put("onmouseout", "js10");
-  //   controlSpan.put("onmouseover", "js11");
-  //   controlSpan.put("onmouseup", "js12");
-  //   controlSpan.put("style", "Color: red;");
-  //   controlSpan.put("tabindex", "0");
-  //   controlSpan.put("title", "sample");
+    TreeMap<String, String> controlSpan = new TreeMap<String, String>();
+    controlSpan.put("accesskey", "U");
+    controlSpan.put("dir", "LTR");
+    controlSpan.put("lang", "en");
+    controlSpan.put("onblur", "js1");
+    controlSpan.put("ondblclick", "js3");
+    controlSpan.put("onfocus", "js4");
+    controlSpan.put("onkeydown", "js5");
+    controlSpan.put("onkeypress", "js6");
+    controlSpan.put("onkeyup", "js7");
+    controlSpan.put("onmousedown", "js8");
+    controlSpan.put("onmousemove", "js9");
+    controlSpan.put("onmouseout", "js10");
+    controlSpan.put("onmouseover", "js11");
+    controlSpan.put("onmouseup", "js12");
+    controlSpan.put("style", "Color: red;");
+    controlSpan.put("tabindex", "0");
+    controlSpan.put("title", "sample");
 
-  //   List<HtmlPage> pages = new ArrayList<HtmlPage>();
-  //   pages.add(webClient.getPage(webUrl + "/faces/passthroughtest.xhtml"));
-  //   pages.add(webClient.getPage(webUrl + "/faces/passthroughtest_facelet.xhtml"));
+    List<String> urls = new ArrayList<String>();
+    urls.add("faces/passthroughtest.xhtml");
+    urls.add("faces/passthroughtest_facelet.xhtml");
 
-  //   for (HtmlPage page : pages) {
+    for (String url : urls) {
+      WebPage page = getPage(url);
+      // Facelet Specific PassThrough options
+      if (page.getTitle().contains("facelet")) {
+        control.put("foo", "bar");
+        control.put("singleatt", "singleAtt");
+        control.put("manyattone", "manyOne");
+        control.put("manyatttwo", "manyTwo");
+        control.put("manyattthree", "manyThree");
+        controlSpan.put("foo", "bar");
+        controlSpan.put("singleatt", "singleAtt");
+        controlSpan.put("manyattone", "manyOne");
+        controlSpan.put("manyatttwo", "manyTwo");
+        controlSpan.put("manyattthree", "manyThree");
+      }
 
-  //     // Facelet Specific PassThrough options
-  //     if (page.getTitleText().contains("facelet")) {
-  //       control.put("foo", "bar");
-  //       control.put("singleatt", "singleAtt");
-  //       control.put("manyattone", "manyOne");
-  //       control.put("manyatttwo", "manyTwo");
-  //       control.put("manyattthree", "manyThree");
-  //       controlSpan.put("foo", "bar");
-  //       controlSpan.put("singleatt", "singleAtt");
-  //       controlSpan.put("manyattone", "manyOne");
-  //       controlSpan.put("manyatttwo", "manyTwo");
-  //       controlSpan.put("manyattthree", "manyThree");
-  //     }
+      WebElement anchor = page.findElement(By.id("form:link1"));
 
-  //     HtmlAnchor anchor = (HtmlAnchor) page.getElementById("form:link1");
-  //     assertNotNull(anchor);
-  //     HtmlSpan span = (HtmlSpan) page.getElementById("form:link2");
-  //     assertNotNull(span);
+      for (Map.Entry<String, String> entry : control.entrySet()) {
+        assertEquals(anchor.getDomAttribute​(entry.getKey()), entry.getValue());
+      }
 
-  //     validateAttributeSet(control, anchor,
-  //         new String[] { "name", "id", "value", "href", "onclick" });
 
-  //     validateAttributeSet(controlSpan, span,
-  //         new String[] { "name", "id", "value", "href", "onclick" });
+      WebElement span = page.findElement(By.id("form:link2"));
+      for (Map.Entry<String, String> entry : controlSpan.entrySet()) {
+        assertEquals(span.getDomAttribute​(entry.getKey()), entry.getValue());
+      }
 
-  //   }
+    }
 
-  // } // END clinkRenderPassthroughTest
-
-  // private void validateAttributeSet(TreeMap<String, String> control,
-  //   HtmlElement underTest, String[] ignoredAttributes) {
-
-  //   Arrays.sort(ignoredAttributes);
-  //   TreeMap<String, String> fromPage = new TreeMap<String, String>();
-  //   for (Iterator i = underTest.getAttributesMap().values().iterator(); i
-  //       .hasNext();) {
-  //     DomAttr domEntry = (DomAttr) i.next();
-  //     String key = domEntry.getName();
-  //     if (Arrays.binarySearch(ignoredAttributes, key) > -1) {
-  //       continue;
-  //     }
-  //     fromPage.put(key, domEntry.getValue());
-  //   }
-
-  //   assertEquals(control, fromPage);
-
-  // } // END validateAttributeSet
+  } // END clinkRenderPassthroughTest
 
 }
