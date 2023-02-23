@@ -67,7 +67,7 @@
        response.addHeader("actionEvent",
            "Test error.  Can't find expected" + " component ID.");
        // Selenium Result ID Check
-       result = "FAILED. Can't find expected component ID"
+       result = "FAILED. Can't find expected component ID";
      } else {
  
        if (!expectedId.equals(component.getId())) {

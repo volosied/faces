@@ -178,6 +178,7 @@ public class AjaxTestsIT {
    * 
    * @since 2.0
    */
+  @Test
   public void ajaxFormKeywordTest() throws Exception {
 
     String EXPECTED = "testtext";
@@ -201,6 +202,7 @@ public class AjaxTestsIT {
    * 
    * @since 2.0
    */
+  @Test
   public void ajaxNoneKeywordTest() throws Exception {
 
     String EXPECTED = "testtext";

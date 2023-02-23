@@ -24,6 +24,7 @@ import static org.openqa.selenium.Keys.TAB;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -182,6 +183,7 @@ public class AjaxTestsIT extends BaseITNG {
    * 
    * @since 2.0
    */
+  @Ignore("Skipped in  Old TCK for EE10")
   @Test
   public void ajaxPDLResourceTest() throws Exception {
 
@@ -218,5 +220,6 @@ public class AjaxTestsIT extends BaseITNG {
         output = page.findElement(By.id(spanId));
         assertEquals(expectedValue, output.getText());
       }
+    }
 
 }
