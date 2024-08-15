@@ -23,6 +23,8 @@ import org.openqa.selenium.By;
 import ee.jakarta.tck.faces.test.util.selenium.BaseITNG;
 import ee.jakarta.tck.faces.test.util.selenium.WebPage;
 
+import java.time.Duration;
+
 public class Spec1263IT extends BaseITNG {
 
     /**
@@ -34,18 +36,22 @@ public class Spec1263IT extends BaseITNG {
         WebPage page = getPage("spec1263.xhtml");
         page.findElement(By.id("row:0:cell:0:form:input")).sendKeys("00");
         page.findElement(By.id("row:0:cell:0:form:submit")).click();
+        page.waitReqJs(Duration.ofMillis(6000));
         assertEquals("[[00, null], [null, null]]", page.findElement(By.id("output")).getText());
 
         page.findElement(By.id("row:0:cell:1:form:input")).sendKeys("01");
         page.findElement(By.id("row:0:cell:1:form:submit")).click();
+        page.waitReqJs(Duration.ofMillis(6000));
         assertEquals("[[00, 01], [null, null]]", page.findElement(By.id("output")).getText());
 
         page.findElement(By.id("row:1:cell:0:form:input")).sendKeys("10");
         page.findElement(By.id("row:1:cell:0:form:submit")).click();
+        page.waitReqJs(Duration.ofMillis(6000));
         assertEquals("[[00, 01], [10, null]]", page.findElement(By.id("output")).getText());
 
         page.findElement(By.id("row:1:cell:1:form:input")).sendKeys("11");
         page.findElement(By.id("row:1:cell:1:form:submit")).click();
+        page.waitReqJs(Duration.ofMillis(6000));
         assertEquals("[[00, 01], [10, 11]]", page.findElement(By.id("output")).getText());
     }
 }
