@@ -26,6 +26,8 @@ import org.openqa.selenium.WebElement;
 import ee.jakarta.tck.faces.test.util.selenium.BaseITNG;
 import ee.jakarta.tck.faces.test.util.selenium.WebPage;
 
+import java.time.Duration;
+
 public class Spec1819IT extends BaseITNG {
 
     private static final String TEST_UUID = "cafebabe-0420-0069-dead-123456789012";
@@ -41,6 +43,7 @@ public class Spec1819IT extends BaseITNG {
         input.sendKeys(TEST_UUID);
         WebElement submit = page.findElement(By.id("form:submit"));
         submit.click();
+        page.waitReqJs(Duration.ofMillis(6000));
         WebElement messages = page.findElement(By.id("form:messages"));
         assertEquals("", messages.getText());
         WebElement output = page.findElement(By.id("form:output"));
@@ -58,6 +61,7 @@ public class Spec1819IT extends BaseITNG {
         input.sendKeys("fubar");
         WebElement submit = page.findElement(By.id("form:submit"));
         submit.click();
+        page.waitReqJs(Duration.ofMillis(6000));
         WebElement messages = page.findElement(By.id("form:messages"));
         assertEquals("form:input: 'fubar' must be a UUID.", messages.getText());
         WebElement output = page.findElement(By.id("form:output"));
@@ -75,6 +79,7 @@ public class Spec1819IT extends BaseITNG {
         input.sendKeys("");
         WebElement submit = page.findElement(By.id("form:submit"));
         submit.click();
+        page.waitReqJs(Duration.ofMillis(6000));
         WebElement messages = page.findElement(By.id("form:messages"));
         assertEquals("", messages.getText());
         WebElement output = page.findElement(By.id("form:output"));
@@ -92,6 +97,7 @@ public class Spec1819IT extends BaseITNG {
         input.sendKeys(TEST_UUID);
         WebElement submit = page.findElement(By.id("form:submit"));
         submit.click();
+        page.waitReqJs(Duration.ofMillis(6000));
         WebElement messages = page.findElement(By.id("form:messages"));
         assertEquals("", messages.getText());
         WebElement output = page.findElement(By.id("form:output"));
@@ -109,6 +115,7 @@ public class Spec1819IT extends BaseITNG {
         input.sendKeys("fubar");
         WebElement submit = page.findElement(By.id("form:submit"));
         submit.click();
+        page.waitReqJs(Duration.ofMillis(6000));
         WebElement messages = page.findElement(By.id("form:messages"));
         assertEquals("form:input: 'fubar' must be a UUID.", messages.getText());
         WebElement output = page.findElement(By.id("form:output"));
@@ -126,6 +133,7 @@ public class Spec1819IT extends BaseITNG {
         input.sendKeys("");
         WebElement submit = page.findElement(By.id("form:submit"));
         submit.click();
+        page.waitReqJs(Duration.ofMillis(6000));
         WebElement messages = page.findElement(By.id("form:messages"));
         assertEquals("", messages.getText());
         WebElement output = page.findElement(By.id("form:output"));
@@ -143,6 +151,7 @@ public class Spec1819IT extends BaseITNG {
         input.sendKeys(TEST_UUID);
         WebElement submit = page.findElement(By.id("form:submit"));
         submit.click();
+        page.waitReqJs(Duration.ofMillis(6000));
         WebElement messages = page.findElement(By.id("form:messages"));
         assertEquals("", messages.getText());
         WebElement output = page.findElement(By.id("form:output"));
@@ -160,6 +169,7 @@ public class Spec1819IT extends BaseITNG {
         input.sendKeys("fubar");
         WebElement submit = page.findElement(By.id("form:submit"));
         submit.click();
+        page.waitReqJs(Duration.ofMillis(6000));
         WebElement messages = page.findElement(By.id("form:messages"));
         assertEquals("form:input: 'fubar' must be a UUID.", messages.getText());
         WebElement output = page.findElement(By.id("form:output"));
@@ -177,6 +187,7 @@ public class Spec1819IT extends BaseITNG {
         input.sendKeys("");
         WebElement submit = page.findElement(By.id("form:submit"));
         submit.click();
+        page.waitReqJs(Duration.ofMillis(6000));
         WebElement messages = page.findElement(By.id("form:messages"));
         assertEquals("", messages.getText());
         WebElement output = page.findElement(By.id("form:output"));
